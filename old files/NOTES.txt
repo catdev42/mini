@@ -1,0 +1,15 @@
+command+D should also signal end of file and bring a new line
+
+
+expander not tested - have to put into expand.c and update minishell.h
+i like the idea of just parser.h. which will host the lexer, parser and expander!
+
+i decided to expand before fully parsing 
+because this somehow made sence with making 2D array out of the command...
+and being able to tell whether to expand the variable seeing as 
+the outside quotes are lost in the parser
+
+For built-in commands like printf, echo, and expr, you need to handle redirection manually. 
+For most other external commands, the commands themselves handle file operations and redirections.
+To integrate redirection handling into your parser function, 
+you can modify it to include the handle_redirection function. Here's how you can do it:
