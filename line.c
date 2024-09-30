@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:07:28 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/30 15:58:18 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/09/30 18:03:50 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ char	*clean_line(char *line, int linelen, t_tools *tools)
 	int		j;
 
 	init_zero(&i, &j, NULL, &c_line);
-	tools->cl_len = linelen * 2;
-	tools->cleanline = safe_calloc(tools->cl_len + 2, 1, tools);
+	tools->cl_capacity = linelen * 2;
+	tools->cleanline = safe_calloc(tools->cl_capacity + 2, 1, tools);
 	c_line = tools->cleanline;
-	while (line[i] && j < tools->cl_len)
+	while (line[i] && j < tools->cl_capacity)
 	{
 		if (line[i] == '\'' || line[i] == '"')
 			i = i + copy_quotes(&c_line[j], &line[i], tools);
@@ -40,7 +40,6 @@ char	*clean_line(char *line, int linelen, t_tools *tools)
 	}
 	return (c_line);
 }
-
 
 int	copy_spaces(char *c_line, char *line)
 {
@@ -104,7 +103,7 @@ int	copy_pipe(char *c_line, char *line, int current_line_index)
 	return (i);
 }
 
-//TODO add heredoc here
+// TODO add heredoc here
 int	copy_redirect(char *c_line, char *line, int current_line_index)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/30 17:38:20 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/09/30 18:27:50 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,7 @@ int	get_matrix_len(char **matrix)
 	return (i);
 }
 
-// int	check_quotes(char *line, int i)
-// {
-// 	int	j;
 
-// 	j = 1;
-// 	while (line[i + j])
-// 	{
-// 		if (line[i] == line[i + j])
-// 			return (i + j);
-// 		j++;
-// 	}
-// 	print_error(UNCLOSED, NULL);
-// 	return (0);
-// }
 
 // int	copy_quotes(char *c_line, char *line, t_tools *tools)
 // {

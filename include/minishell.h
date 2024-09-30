@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/27 00:38:05 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/09/30 18:28:12 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,13 @@ int		isquote(char c);
 int		get_matrix_len(char **matrix);
 // int		skip_spaces(char *s);
 
-
 /************************/
 /******* utils2.c ********/
 /************************/
 int		valid_line(char *line);
 void	ft_bspace(void *s, size_t n);
 void	init_zero(int *i, int *j, char *c, char **c_line);
+int		check_quotes(char *line, int i);
 
 /************************/
 /******* error.c ********/

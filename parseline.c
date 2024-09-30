@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:42:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/30 16:05:36 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/09/30 18:34:02 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,34 @@
 struct cmd	*parseline(char *line, t_tools *tools)
 {
 	// int	pipe;
-
-    // pipe = peek(tools, PIPE);
+	// pipe = peek(tools, PIPE);
 	// if (pipe)
 	// 	;
-    // return (ret);
+	// return (ret);
 }
 
-struct cmd *
-
-char *	peek(t_tools *tools, int tokentype)
+char	*peek(char *start, t_tools *tools, int token)
 {
-    
+	char *tokenaddress;
+	int i;
+	char tokenchar;
+
+	tokenaddress = 0;
+	i = 0;
+	tokenchar = 0;
+	if (token == PIPE)
+	{
+		tokenchar = '|';
+		i = 0;
+		while (start[i] && start[i] != '|')
+		{
+			if (isquote(start[i]))
+				i = check_quotes(start, i);
+			if (start[i] == '|')
+				tokenaddress = &start[i];
+			i++;
+		}
+	}
+
+	return (tokenaddress);
 }

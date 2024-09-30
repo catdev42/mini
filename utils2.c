@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/27 00:42:01 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/09/30 18:27:54 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,19 @@ void	ft_bspace(void *s, size_t n)
 	{
 		p[i++] = ' ';
 	}
+}
+
+int	check_quotes(char *line, int i)
+{
+	int	j;
+
+	j = 1;
+	while (line[i + j])
+	{
+		if (line[i] == line[i + j])
+			return (i + j);
+		j++;
+	}
+	print_error(UNCLOSED, NULL);
+	return (0);
 }

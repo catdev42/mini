@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:22:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/27 01:15:38 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/09/30 18:03:27 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	clean_tools(t_tools *tools)
 		free(tools->line);
 	if (tools->cleanline)
 	{
-		ft_bzero(tools->cleanline, tools->cl_len);
+		ft_bzero(tools->cleanline, tools->cl_capacity);
 		free(tools->cleanline);
 	}
 }
