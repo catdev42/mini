@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:59:13 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/27 00:27:46 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:35:15 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	copy_var(char *c_line, char *line, t_tools *tools)
 		extend_cleanline(tools, ft_strlen(var_result));
 		c_line = &(tools->cleanline[curr_cl_ind]);
 	}
-    ft_strlcpy(c_line, var_result, tools->cl_len - curr_cl_ind);
+	ft_strlcpy(c_line, var_result, tools->cl_len - curr_cl_ind);
 	return (i);
 }
 
@@ -59,4 +59,55 @@ static void	extend_cleanline(t_tools *tools, int add)
 	tools->cl_len = new_cl_len;
 	ft_strlcpy(tools->cleanline, tmpold, tools->cl_len);
 	free(tmpold);
+}
+
+void	remove_useless_quotes(char *cline, t_tools *tools)
+{
+	int		i;
+	char	quotechar;
+	char	*firstquote;
+	char	*secondquote;
+	bool	removequotes;
+
+	removequotes = 1;
+	firstquote = 0;
+	secondquote = 0;
+	i = 0;
+	quotechar = 0;
+	while (cline[i])
+	{
+		if (cline[i] == quotechar)
+		{
+			if (i > 0 && !ft_isspace(cline[i - 1]))
+				// && !istoken(cline[i- 1]) ??
+				firstquote = &cline[i++];
+			while (cline[i] && cline[i] != quotechar)
+			{
+				if (ft_isspace(cline[i]) || istoken(cline[i]) || cline[i] == '$')
+					removequotes = 0;
+				i++;
+			}
+			if (!removequotes && cline[i])
+				i++;
+			else
+			{
+				secondquote = &cline[i];
+				remove_two(firstquote, secondquote);
+				i -= 2;
+			}
+		}
+		i++;
+	}
+}
+
+/*
+Removes 2 characters from a string, rewriting the string in the process.
+Used to remove quotes in this program.
+*/
+void	remove_two(char *first, char *second)
+{
+	if (second)
+		ft_memmove(second, second + 1, ft_strlen(second + 1) + 1);
+	if (first)
+		ft_memmove(first, first + 1, ft_strlen(first + 1) + 1);
 }

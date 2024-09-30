@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:07:28 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/27 00:43:09 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:58:18 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ int	copy_quotes(char *c_line, char *line, t_tools *tools)
 		else
 			c_line[j++] = line[i++];
 	}
+	if (line[i] == 0)
+		print_error("unclosed quotes, please try again", NULL);
 	c_line[j++] = line[i++];
 	i = i + copy_spaces(&c_line[j], &line[i]);
 	return (i);
@@ -102,6 +104,7 @@ int	copy_pipe(char *c_line, char *line, int current_line_index)
 	return (i);
 }
 
+//TODO add heredoc here
 int	copy_redirect(char *c_line, char *line, int current_line_index)
 {
 	int	i;
