@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:59:13 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/01 16:34:37 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:09:30 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,22 @@ void	remove_useless_quotes(char *cline)
 	secondquote = 0;
 	i = 0;
 	quotechar = 0;
-	printf("%s\n", cline);
+	// printf("%s\n", cline);
 	while (cline[i])
 	{
+		// 	if ((!ft_isspace(cline[i - 1])
+		// || !ft_isspace(cline[skip_quotes(cline,
+		// 					i) + 1])) && isquote(cline[i]))
+		// !ft_isspace(cline[i - 1]) &&
 		if (isquote(cline[i]))
 		{
+			// printf("\n '%c'&'%c' \n", ft_isspace(cline[i - 1]),
+			// 	ft_isspace(cline[skip_quotes(cline, i) + 1]));
+			printf("i should not be here IF there is a space before quote");
 			quotechar = cline[i];
-			if (i > 0 && !ft_isspace(cline[i - 1]))
-				// && !istoken(cline[i- 1]) ??
-				firstquote = &cline[i];
+			/* if (i > 0 && !ft_isspace(cline[i - 1])) //&& !istoken(cline[i
+				- 1]) */
+			firstquote = &cline[i];
 			i++;
 			while (cline[i] && cline[i] != quotechar)
 			{
@@ -99,6 +106,12 @@ void	remove_useless_quotes(char *cline)
 				i -= 2;
 			}
 		}
+		// else if (isquote(cline[i]))
+		// {
+		// 	// if (!check_quotes(cline, i))
+		// 	// 	return ;
+		// 	i = skip_quotes(cline, i);
+		// }
 		i++;
 	}
 }
@@ -109,10 +122,10 @@ Used to remove quotes in this program.
 */
 void	remove_two(char *first, char *second)
 {
-	printf("im in remove2\n");
+	printf("im in remove 2\n");
 	if (second)
 	{
-		printf(" %p - nothing???", second);
+		// printf(" %p - nothing???", second);
 		ft_memmove(second, second + 1, ft_strlen(second + 1) + 1);
 	}
 	if (first)

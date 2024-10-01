@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/01 14:40:48 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:01:53 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,16 @@ int	shell_loop(t_tools *tools)
 	while (1)
 	{
 		if (tools->line)
+			// TODO Change into full cleanup except ENV variable && history
 			free(tools->line);
 		tools->line = readline("minishell: ");
 		checkexit(tools);
 		global_signal = 0;
-		if (valid_line(tools->line))
-			add_history(tools->line);
-		else
+		if (!valid_line(tools->line))
 			continue ;
-		// if (!validquotes(tools->line, tools))
-		// 	continue ;
+		add_history(tools->line);
+		if (!valid_quotes(tools->line))
+			continue ;
 		tools->cleanline = clean_line(tools->line, ft_strlen(tools->line),
 				tools);
 		if (!tools->cleanline)
@@ -68,34 +68,37 @@ int	shell_loop(t_tools *tools)
 	return (0);
 }
 
-// Note: Built this into line.c -> copy_quotes()
+// INVALID : Note: Built this into line.c -> copy_quotes()
 
-// int	validquotes(char *line, t_tools *tools)
-// {
-// 	int		i;
-// 	char	quote_char;
+int	valid_quotes(char *line)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (line[i])
-// 	{
-// 		if (isquote(line[i]))
-// 		{
-// 			quote_char = line[i];
-// 			i++;
-// 			while (line[i] && line[i] != quote_char)
-// 				i++;
-// 			if (!line[i])
-// 			{
-// 				print_error("unclosed quotes, please try again", NULL);
-// 				new_line();
-// 				return (0);
-// 			}
-// 		}
-// 		else
-// 			i++;
-// 	}
-// 	return (1);
-// }
+	// char	quote_char;
+	i = 0;
+	while (line[i])
+	{
+		if (isquote(line[i]))
+		{
+			// quote_char = line[i];
+			// i++;
+			// while (line[i] && line[i] != quote_char)
+			// 	i++;
+			// if (!line[i])
+			// {
+			// 	print_error("unclosed quotes, please try again", NULL);
+			// 	new_line();
+			// 	return (0);
+			// }
+			if (!check_quotes(line, i))
+				return (0);
+			// printf("we got here?");
+			i = skip_quotes(line, i);
+		}
+		i++;
+	}
+	return (1);
+}
 
 /* Liretally checks if exit was typed into the line as the first command */
 void	checkexit(t_tools *tools)

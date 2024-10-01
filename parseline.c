@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:42:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/01 14:19:01 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:35:47 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*peek(char *start, t_tools *tools, int token)
 		while (start[i] && start[i] != '|')
 		{
 			if (isquote(start[i]))
-				i = check_quotes(start, i);
+				i = skip_quotes(start, i);
 			if (start[i] == '|')
 				tokenaddress = &start[i];
 			i++;
@@ -49,7 +49,7 @@ char	*peek(char *start, t_tools *tools, int token)
 		while (start[i] && isredir(start[i]))
 		{
 			if (isquote(start[i]))
-				i = check_quotes(start, i);
+				i = skip_quotes(start, i);
 			if (isredir(start[i]))
 				tokenaddress = &start[i];
 			i++;

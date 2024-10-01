@@ -24,7 +24,7 @@ LDFLAGS 	:= -L/usr/local/opt/readline/lib -lreadline
 #------------------------------------------------#
 #   RECIPES                                      #
 #------------------------------------------------#
-.SILENT:
+# .SILENT:
 
 all: $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/01 16:15:08 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:34:40 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	new_line(void);
 void	handle_signals(int sig);
 void	init_sa(struct sigaction *sa);
 void	checkexit(t_tools *tools);
+int		valid_quotes(char *line);
 
 /************************/
 /******** line.c ********/
@@ -87,6 +88,7 @@ int		valid_line(char *line);
 void	ft_bspace(void *s, size_t n);
 void	init_zero(size_t *i, size_t *j, char *c, char **c_line);
 int		check_quotes(char *line, int i);
+int		skip_quotes(char *line, int i);
 
 /************************/
 /******* error.c ********/

@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/01 16:14:23 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:35:05 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ void	init_zero(size_t *i, size_t *j, char *c, char **c_line)
 		*c_line = NULL;
 }
 
-/* 
+/*
 CHECKS IF THE COMMAND IS EMPTY
-Returns 1 if there is anything except spaces in a line 
+Returns 1 if there is anything except spaces in a line
 */
 int	valid_line(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i])
@@ -61,11 +61,19 @@ void	ft_bspace(void *s, size_t n)
 	}
 }
 
+/*
+Provide the pointer to line and the index you are currently on
+Returns 0 is quotes aren't closed
+And Index of second quote if they are closed
+*/
+
 int	check_quotes(char *line, int i)
 {
 	int	j;
 
 	j = 1;
+	if (!isquote(line[i]))
+		return (i);
 	while (line[i + j])
 	{
 		if (line[i] == line[i + j])
@@ -74,4 +82,28 @@ int	check_quotes(char *line, int i)
 	}
 	print_error(UNCLOSED, NULL);
 	return (0);
+}
+
+/*
+Provide the pointer to beginning of line and the index you are currently on.
+Returns Index of CLOSING QUOTE if they are closed
+Only use to find next quote when you KNOW that the quotes are closed
+If the quotes are NOT closed, returns the index of the initial quote
+*/
+
+int	skip_quotes(char *line, int i)
+{
+	int	j;
+
+	j = 1;
+	if (!isquote(line[i]))
+		return (i);
+	while (line[i + j])
+	{
+		if (line[i] == line[i + j])
+			return (i + j);
+		j++;
+	}
+	// print_error(UNCLOSED, NULL);
+	return (i);
 }
