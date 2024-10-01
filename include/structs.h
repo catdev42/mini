@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 20:00:21 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/30 18:03:27 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:00:18 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct s_tools
 
 	char		*cleanline;
 	char		*ecline;
-	int			cl_capacity;
+	size_t			cl_capacity;
 	// char		**lexed;
 	// int			lex_len;
 	int			num_pipes;

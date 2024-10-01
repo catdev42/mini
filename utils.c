@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/30 18:27:50 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/01 14:16:26 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,10 @@ int	print_tab(char **envp)
 int	istoken(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
+}
+int	isredir(char c)
+{
+	return (c == '<' || c == '>');
 }
 
 int	isquote(char c)

@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/30 16:05:03 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/01 14:40:48 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ int	shell_loop(t_tools *tools)
 		tools->cleanline = clean_line(tools->line, ft_strlen(tools->line),
 				tools);
 		if (!tools->cleanline)
-			continue;
-		
+			continue ;
 		// if (!tools->cleanline)
 		// 	error_exit(tools, 1);
 		ft_putstr_fd(tools->cleanline, 1);
@@ -99,7 +98,7 @@ int	shell_loop(t_tools *tools)
 // }
 
 /* Liretally checks if exit was typed into the line as the first command */
-int	checkexit(t_tools *tools)
+void	checkexit(t_tools *tools)
 {
 	if (!tools->line || (!strncmp(tools->line, "exit", 4)
 			&& (ft_isspace(tools->line[5]) || tools->line[5] == 0)))

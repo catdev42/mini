@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:07:28 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/30 18:03:50 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:13:55 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 char	*clean_line(char *line, int linelen, t_tools *tools)
 {
 	char	*c_line;
-	int		i;
-	int		j;
+	size_t		i;
+	size_t		j;
 
 	init_zero(&i, &j, NULL, &c_line);
 	tools->cl_capacity = linelen * 2;
@@ -38,6 +38,7 @@ char	*clean_line(char *line, int linelen, t_tools *tools)
 			c_line[j++] = line[i++];
 		j = ft_strlen(c_line);
 	}
+	remove_useless_quotes(c_line);
 	return (c_line);
 }
 

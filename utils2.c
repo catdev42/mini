@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/30 18:27:54 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:14:23 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ Can initialize 2 ints, 1 char and 1 string pointer
 If something isnt necessary, pass in NULL
 Used by clean_line()!
 */
-void	init_zero(int *i, int *j, char *c, char **c_line)
+void	init_zero(size_t *i, size_t *j, char *c, char **c_line)
 {
 	if (i)
 		*i = 0;

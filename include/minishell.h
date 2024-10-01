@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/30 18:28:12 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:15:08 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int		shell_loop(t_tools *tools);
 void	new_line(void);
 void	handle_signals(int sig);
 void	init_sa(struct sigaction *sa);
+void	checkexit(t_tools *tools);
 
 /************************/
 /******** line.c ********/
@@ -50,6 +51,9 @@ char	*clean_line(char *line, int linelen, t_tools *tools);
 int		copy_spaces(char *c_line, char *line);
 
 int		copy_var(char *c_line, char *line, t_tools *tools);
+// static void	extend_cleanline(t_tools *tools, int add);
+void	remove_useless_quotes(char *cline);
+void	remove_two(char *first, char *second);
 
 /************************/
 /******* init.c ********/
@@ -72,6 +76,8 @@ int		print_tab(char **envp);
 int		istoken(char c);
 int		isquote(char c);
 int		get_matrix_len(char **matrix);
+int		isredir(char c);
+
 // int		skip_spaces(char *s);
 
 /************************/
@@ -79,7 +85,7 @@ int		get_matrix_len(char **matrix);
 /************************/
 int		valid_line(char *line);
 void	ft_bspace(void *s, size_t n);
-void	init_zero(int *i, int *j, char *c, char **c_line);
+void	init_zero(size_t *i, size_t *j, char *c, char **c_line);
 int		check_quotes(char *line, int i);
 
 /************************/
