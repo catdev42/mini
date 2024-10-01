@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/01 21:33:39 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/01 21:47:12 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,7 @@ char		*get_var(char **env, char *var);
 struct cmd	*makeexec(void);
 struct cmd	*makeredir(struct cmd *subcmd, char *file, char *efile, int mode,
 				int fd);
-struct cmd	*makepipe(struct cmd *left, struct cmd *right)
-
+struct cmd	*makepipe(struct cmd *left, struct cmd *right);
 
 /************************/
 /******* utils.c ********/
