@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/01 17:34:40 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/01 21:33:39 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,68 +35,77 @@
 /************************/
 /******** main.c ********/
 /************************/
-int		shell_loop(t_tools *tools);
-void	new_line(void);
-void	handle_signals(int sig);
-void	init_sa(struct sigaction *sa);
-void	checkexit(t_tools *tools);
-int		valid_quotes(char *line);
+int			shell_loop(t_tools *tools);
+void		new_line(void);
+void		handle_signals(int sig);
+void		init_sa(struct sigaction *sa);
+void		checkexit(t_tools *tools);
+int			valid_quotes(char *line);
 
 /************************/
 /******** line.c ********/
 /************************/
-int		copy_quotes(char *c_line, char *line, t_tools *tools);
-int		copy_pipe(char *c_line, char *line, int current_line_index);
-int		copy_redirect(char *c_line, char *line, int current_line_index);
-char	*clean_line(char *line, int linelen, t_tools *tools);
-int		copy_spaces(char *c_line, char *line);
+int			copy_quotes(char *c_line, char *line, t_tools *tools);
+int			copy_pipe(char *c_line, char *line, int current_line_index);
+int			copy_redirect(char *c_line, char *line, int current_line_index);
+char		*clean_line(char *line, int linelen, t_tools *tools);
+int			copy_spaces(char *c_line, char *line);
 
-int		copy_var(char *c_line, char *line, t_tools *tools);
+int			copy_var(char *c_line, char *line, t_tools *tools);
 // static void	extend_cleanline(t_tools *tools, int add);
-void	remove_useless_quotes(char *cline);
-void	remove_two(char *first, char *second);
+void		remove_useless_quotes(char *cline);
+void		remove_two(char *first, char *second);
 
 /************************/
 /******* init.c ********/
 /************************/
-void	init_tools(t_tools *tools);
+void		init_tools(t_tools *tools);
 
 /************************/
 /*******  env.c  ********/
 /************************/
-char	**copy_env(t_tools *tools, char **env);
-char	*get_var(char **env, char *var);
+char		**copy_env(t_tools *tools, char **env);
+char		*get_var(char **env, char *var);
 // char	*get_env_var(t_tools *tools, char *var);
+
+/************************/
+/**** makestruct.c  *****/
+/************************/
+struct cmd	*makeexec(void);
+struct cmd	*makeredir(struct cmd *subcmd, char *file, char *efile, int mode,
+				int fd);
+struct cmd	*makepipe(struct cmd *left, struct cmd *right)
+
 
 /************************/
 /******* utils.c ********/
 /************************/
 
-char	*safe_calloc(size_t nmemb, size_t size, t_tools *tools);
-int		print_tab(char **envp);
-int		istoken(char c);
-int		isquote(char c);
-int		get_matrix_len(char **matrix);
-int		isredir(char c);
+char		*safe_calloc(size_t nmemb, size_t size, t_tools *tools);
+int			print_tab(char **envp);
+int			istoken(char c);
+int			isquote(char c);
+int			get_matrix_len(char **matrix);
+int			isredir(char c);
 
 // int		skip_spaces(char *s);
 
 /************************/
 /******* utils2.c ********/
 /************************/
-int		valid_line(char *line);
-void	ft_bspace(void *s, size_t n);
-void	init_zero(size_t *i, size_t *j, char *c, char **c_line);
-int		check_quotes(char *line, int i);
-int		skip_quotes(char *line, int i);
+int			valid_line(char *line);
+void		ft_bspace(void *s, size_t n);
+void		init_zero(size_t *i, size_t *j, char *c, char **c_line);
+int			check_quotes(char *line, int i);
+int			skip_quotes(char *line, int i);
 
 /************************/
 /******* error.c ********/
 /************************/
-int		error_exit(t_tools *tools, int error);
-void	clean_tools(t_tools *tools);
-char	**free_array(char **res, int nb);
-int		print_error(char *errline, char *errarg);
+int			error_exit(t_tools *tools, int error);
+void		clean_tools(t_tools *tools);
+char		**free_array(char **res, int nb);
+int			print_error(char *errline, char *errarg);
 
 /************************/
 /******* built_ins.c ********/

@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:59:13 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/01 18:09:30 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/01 21:21:01 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static void	extend_cleanline(t_tools *tools, int add);
 
-// returns len of variablien in line
+// returns len of variable in line
+//This is an insanely confusing function - rewrite?
 int	copy_var(char *c_line, char *line, t_tools *tools)
 {
 	char	*var;
@@ -25,8 +26,7 @@ int	copy_var(char *c_line, char *line, t_tools *tools)
 	var = NULL;
 	curr_cl_ind = c_line - tools->cleanline;
 	i = 1;
-	while (!ft_isspace(line[i]) && isquote(line[i]) && !istoken(line[i])
-		&& line[i] != '$')
+	while (line[i] &&!ft_isspace(line[i]) && !isquote(line[i]) && !istoken(line[i]) && line[i] != '$') //????
 		i++;
 	if (i == 1)
 		return (0);
@@ -37,8 +37,7 @@ int	copy_var(char *c_line, char *line, t_tools *tools)
 	free(var);
 	if (!var_result)
 		return (0);
-	if (tools->cl_capacity < ft_strlen(var_result)
-		+ ft_strlen(tools->cleanline))
+	if (tools->cl_capacity < ft_strlen(var_result) + ft_strlen(tools->cleanline))
 	{
 		extend_cleanline(tools, ft_strlen(var_result));
 		c_line = &(tools->cleanline[curr_cl_ind]);
@@ -86,7 +85,7 @@ void	remove_useless_quotes(char *cline)
 		{
 			// printf("\n '%c'&'%c' \n", ft_isspace(cline[i - 1]),
 			// 	ft_isspace(cline[skip_quotes(cline, i) + 1]));
-			printf("i should not be here IF there is a space before quote");
+			// printf("i should not be here IF there is a space before quote");
 			quotechar = cline[i];
 			/* if (i > 0 && !ft_isspace(cline[i - 1])) //&& !istoken(cline[i
 				- 1]) */
@@ -122,7 +121,7 @@ Used to remove quotes in this program.
 */
 void	remove_two(char *first, char *second)
 {
-	printf("im in remove 2\n");
+	// printf("im in remove 2\n");
 	if (second)
 	{
 		// printf(" %p - nothing???", second);

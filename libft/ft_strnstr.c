@@ -6,12 +6,13 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:29:47 by myakoven          #+#    #+#             */
-/*   Updated: 2023/12/11 20:12:43 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/01 21:07:57 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+/*Returns  pointer to the needle in haystack*/
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
 	size_t	i;

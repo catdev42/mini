@@ -1,32 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexerchecks.c                                      :+:      :+:    :+:   */
+/*   checksyntax.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/09 19:07:28 by spitul            #+#    #+#             */
-/*   Updated: 2024/10/01 21:44:26 by myakoven         ###   ########.fr       */
+/*   Created: 2024/10/01 21:45:41 by myakoven          #+#    #+#             */
+/*   Updated: 2024/10/01 21:46:06 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
-// return index of closing quote or puts error!
-int	check_quotes(char *line, int i)
-{
-	int	j;
-
-	j = 1;
-	while (line[i + j])
-	{
-		if (line[i] == line[i + j])
-			return (i + j);
-		j++;
-	}
-	print_error(UNCLOSED, NULL);
-	return (0);
-}
 char	*get_redir_error(char *line, int i, int goodtokens)
 {
 	int	j;
