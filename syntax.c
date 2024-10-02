@@ -6,13 +6,15 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 21:45:41 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/02 16:32:44 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/02 20:02:42 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 static char	*get_redir_error(char *line, int i);
+static int	check_pipes(char *line);
+static int	check_last_redir(char *line);
 static int	check_pipes(char *line);
 
 int	valid_redirects(char *line)
@@ -28,8 +30,7 @@ int	valid_redirects(char *line)
 	{
 		if (!check_pipes(line))
 			return (print_error(UNEXP, "|"));
-		if (!check_last_redir(line))
-			return (print_error(UNEXP, "newline"));
+		
 		if (line[i] == '\"' || line[i] == '\'')
 		{
 			hasalpha = 1;
@@ -54,6 +55,8 @@ int	valid_redirects(char *line)
 		if (line[i])
 			i++;
 	}
+	if (!check_last_redir(line))
+			return (print_error(UNEXP, "newline"));
 	return (1);
 }
 
@@ -99,6 +102,7 @@ static int	check_last_redir(char *line)
 		i--;
 	if (line[i] == '<' || line[i] == '>')
 		return (0);
+	return (1);
 }
 
 // returns zero if syntax error with pipes in beginning or end

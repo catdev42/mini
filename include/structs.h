@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 20:00:21 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/02 16:11:23 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:19:33 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ struct			execcmd
 struct			redircmd
 {
 	int			type;
-	// pointer to next thing redir or exec
+	// 0xt thing redir or exec
 	struct cmd	*cmd;
 	// pointer to filename
 	char		*file;

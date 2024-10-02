@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:42:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/02 17:18:16 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:41:59 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,22 +76,37 @@ struct cmd	*parseexec(char *start, char *end_of_exec, t_tools *tools)
 
 struct cmd	*parseredir(char *start, char *end_of_exec, t_tools *tools)
 {
-	struct redircmd	rcmd;
+	struct redircmd	*rcmd;
 	int				i;
+	int				term;
+	int				j;
 
+	term = 0;
 	i = 0;
 	while (start[i] != '<' || start[i] != '>')
 		i++;
 	if (start[i] == '<')
 	{
+		j = 0;
+		while (start[i + j])
+		{
+			if (start[i + j] == '\'' || start[i + j] == '"')
+				j = skip_quotes(start, i + j) - i;
+			if (ft_isspace(start[i + j]))
+				break ;
+			j++;
+		}
+		term = i + j;
+		// TODO HEREDOC
+		// TODO CHECK FOR DIRECTORY
+		// DO NOT DELETE THIS NOTE
 		// if (start[i + 1] == '<')
 		// 	; /*TODO HEREDOC*/
 		// else
-
-		// struct cmd * makeredir(struct cmd *subcmd, char *file, 
+		// struct cmd * makeredir(struct cmd *subcmd, char *file,
 		// char *efile, int mode, int fd)
-		
-		rcmd = makeredir( &start[++i])
+		rcmd = (struct redircmd *)(makeredir(NULL, &start[++i], &start[term],
+					O_WRONLY | O_TRUNC | O_CREAT, 0));
 	}
 }
 
