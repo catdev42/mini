@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/02 01:12:15 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/02 13:05:16 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,37 +68,7 @@ int	shell_loop(t_tools *tools)
 	return (0);
 }
 
-// INVALID : Note: Built this into line.c -> copy_quotes()
 
-int	valid_quotes(char *line)
-{
-	int	i;
-
-	// char	quote_char;
-	i = 0;
-	while (line[i])
-	{
-		if (isquote(line[i]))
-		{
-			// quote_char = line[i];
-			// i++;
-			// while (line[i] && line[i] != quote_char)
-			// 	i++;
-			// if (!line[i])
-			// {
-			// 	print_error("unclosed quotes, please try again", NULL);
-			// 	new_line();
-			// 	return (0);
-			// }
-			if (!check_quotes(line, i))
-				return (0);
-			// printf("we got here?");
-			i = skip_quotes(line, i);
-		}
-		i++;
-	}
-	return (1);
-}
 
 /* Liretally checks if exit was typed into the line as the first command */
 void	checkexit(t_tools *tools)

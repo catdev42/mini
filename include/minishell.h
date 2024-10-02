@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/02 01:12:27 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/02 13:07:12 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ void		new_line(void);
 void		handle_signals(int sig);
 void		init_sa(struct sigaction *sa);
 void		checkexit(t_tools *tools);
-int			valid_quotes(char *line);
-int			valid_redirects(char *line);
 
 /************************/
 /******** line.c ********/
@@ -53,7 +51,6 @@ char		*clean_line(char *line, int linelen, t_tools *tools);
 int			copy_spaces(char *c_line, char *line);
 
 int			copy_var(char *c_line, char *line, t_tools *tools);
-// static void	extend_cleanline(t_tools *tools, int add);
 void		remove_useless_quotes(char *cline);
 void		remove_two(char *first, char *second);
 
@@ -61,6 +58,12 @@ void		remove_two(char *first, char *second);
 /******* init.c ********/
 /************************/
 void		init_tools(t_tools *tools);
+
+/************************/
+/******* syntax.c ********/
+/************************/
+int			valid_quotes(char *line);
+int			valid_redirects(char *line);
 
 /************************/
 /*******  env.c  ********/
@@ -113,4 +116,7 @@ int			print_error(char *errline, char *errarg);
 // void	pwd(t_tools *tools, cmd_t *cmd); //TODO
 // void	pwd(t_tools *tools);
 
+// int		check_quotes(char *line, int i);
+// char	*get_redir_error(char *line, int i, int goodtokens);
+// int		check_redirects(t_tools *tools);
 #endif

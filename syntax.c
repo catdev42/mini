@@ -1,49 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checksyntax.c                                      :+:      :+:    :+:   */
+/*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 21:45:41 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/02 02:07:30 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/02 13:06:33 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static char	*get_redir_error(char *line, int i)
-{
-	int	j;
-
-	j = 0;
-	while (istoken(line[i + j]) & j < 2)
-		j++;
-	if (istoken(line[i] == '|'))
-		j = 1;
-	if (istoken(line[i]) != istoken(line[i + 1]))
-		j = 1;
-	line[i + j] = 0;
-	return (line[i]);
-}
-
-// returns zero if syntax error with pipes in beginning or end
-static int	check_pipes(char *line)
-{
-	int	i;
-
-	// first
-	while (line[i] && ft_isspace(line[i]))
-		i++;
-	if (line[i] == '|')
-		return (0);
-	i = ft_strlen(line) - 1;
-	while (line[i] && i >= 0 && ft_isspace(line[i]))
-		i--;
-	if (line[i] == '|')
-		return (0);
-	return (1);
-}
+static char	*get_redir_error(char *line, int i);
+static int	check_pipes(char *line);
 
 int	valid_redirects(char *line)
 {
@@ -88,6 +58,69 @@ int	valid_redirects(char *line)
 		if (line[i])
 			i++;
 	}
+	return (1);
+}
+
+int	valid_quotes(char *line)
+{
+	int	i;
+
+	// char	quote_char;
+	i = 0;
+	while (line[i])
+	{
+		if (isquote(line[i]))
+		{
+			// quote_char = line[i];
+			// i++;
+			// while (line[i] && line[i] != quote_char)
+			// 	i++;
+			// if (!line[i])
+			// {
+			// 	print_error("unclosed quotes, please try again", NULL);
+			// 	new_line();
+			// 	return (0);
+			// }
+			if (!check_quotes(line, i))
+				return (0);
+			// printf("we got here?");
+			i = skip_quotes(line, i);
+		}
+		i++;
+	}
+	return (1);
+}
+
+static char	*get_redir_error(char *line, int i)
+{
+	int	j;
+
+	j = 0;
+	while (istoken(line[i + j]) & j < 2)
+		j++;
+	if (istoken(line[i] == '|'))
+		j = 1;
+	if (istoken(line[i]) != istoken(line[i + 1]))
+		j = 1;
+	line[i + j] = 0;
+	return (line[i]);
+}
+
+// returns zero if syntax error with pipes in beginning or end
+static int	check_pipes(char *line)
+{
+	int	i;
+
+	// first
+	while (line[i] && ft_isspace(line[i]))
+		i++;
+	if (line[i] == '|')
+		return (0);
+	i = ft_strlen(line) - 1;
+	while (line[i] && i >= 0 && ft_isspace(line[i]))
+		i--;
+	if (line[i] == '|')
+		return (0);
 	return (1);
 }
 
