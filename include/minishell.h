@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/01 21:47:12 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/02 01:12:27 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void		handle_signals(int sig);
 void		init_sa(struct sigaction *sa);
 void		checkexit(t_tools *tools);
 int			valid_quotes(char *line);
+int			valid_redirects(char *line);
 
 /************************/
 /******** line.c ********/

@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 20:00:21 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/01 15:00:18 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/02 11:26:12 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,12 @@ typedef struct s_tools
 	char		**env;
 
 	char		*line;
-
+	size_t		line_capacity;
 	char		*cleanline;
 	char		*ecline;
-	size_t			cl_capacity;
-	// char		**lexed;
-	// int			lex_len;
+	size_t		cl_capacity;
 	int			num_pipes;
-	// t_parsed	**parsed_commands;
+	struct cmd	*tree;
 }				t_tools;
 
 // typedef struct line_saver

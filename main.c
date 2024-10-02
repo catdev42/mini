@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/01 18:01:53 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/02 01:12:15 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	shell_loop(t_tools *tools)
 		if (!valid_line(tools->line))
 			continue ;
 		add_history(tools->line);
-		if (!valid_quotes(tools->line))
+		if (!valid_quotes(tools->line) || valid_redirects(tools->line))
 			continue ;
 		tools->cleanline = clean_line(tools->line, ft_strlen(tools->line),
 				tools);
