@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:22:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/09/30 18:03:27 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/02 13:14:30 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	print_error(char *errline, char *errarg)
 			ft_putstr_fd("`", 2);
 			ft_putstr_fd(errarg, 2);
 			ft_putstr_fd("\'", 2);
-			free(errarg);
+			// free(errarg); // this is NOT allocated
 		}
 		ft_putstr_fd("\n", 2);
 	}

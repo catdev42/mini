@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/02 13:07:12 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:19:13 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 # include "../libft/libft.h"
 # include "builtins.h"
-# include "lexer.h"
+// # include "lexer.h"
 // # include "parser.h"
 # include "structs.h"
 # include <fcntl.h>
@@ -71,6 +71,13 @@ int			valid_redirects(char *line);
 char		**copy_env(t_tools *tools, char **env);
 char		*get_var(char **env, char *var);
 // char	*get_env_var(t_tools *tools, char *var);
+
+/************************/
+/******* parseline.c ********/
+/************************/
+struct cmd	*parseline(char *cline, t_tools *tools);
+struct cmd	*decide_pipe_right(t_tools *tools);
+char		*peek(char *line, t_tools *tools, int token);
 
 /************************/
 /**** makestruct.c  *****/

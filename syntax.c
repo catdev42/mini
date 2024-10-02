@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 21:45:41 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/02 13:06:33 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:32:44 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	valid_redirects(char *line)
 	{
 		if (!check_pipes(line))
 			return (print_error(UNEXP, "|"));
+		if (!check_last_redir(line))
+			return (print_error(UNEXP, "newline"));
 		if (line[i] == '\"' || line[i] == '\'')
 		{
 			hasalpha = 1;
@@ -35,10 +37,6 @@ int	valid_redirects(char *line)
 		}
 		if (line[i] && istoken(line[i]))
 		{
-			// first_token_index = i;
-			// if (line[i] == '|')
-			// 	if (!hasalpha)
-			// 		return (print_error(UNEXP, (get_redir_error(line, i))));
 			hasalpha = 0;
 			if (line[i + 1] && line[i + 1] == line[i] && line[i] != '|')
 				i++;
@@ -53,8 +51,6 @@ int	valid_redirects(char *line)
 			if (!hasalpha && istoken(line[i]))
 				return (print_error(UNEXP, (get_redir_error(line, i))));
 		}
-		// else if (!ft_isspace(line[i]) && !istoken(line[i]))
-		// 	hasalpha = 1;
 		if (line[i])
 			i++;
 	}
@@ -65,25 +61,13 @@ int	valid_quotes(char *line)
 {
 	int	i;
 
-	// char	quote_char;
 	i = 0;
 	while (line[i])
 	{
 		if (isquote(line[i]))
 		{
-			// quote_char = line[i];
-			// i++;
-			// while (line[i] && line[i] != quote_char)
-			// 	i++;
-			// if (!line[i])
-			// {
-			// 	print_error("unclosed quotes, please try again", NULL);
-			// 	new_line();
-			// 	return (0);
-			// }
 			if (!check_quotes(line, i))
 				return (0);
-			// printf("we got here?");
 			i = skip_quotes(line, i);
 		}
 		i++;
@@ -96,14 +80,25 @@ static char	*get_redir_error(char *line, int i)
 	int	j;
 
 	j = 0;
-	while (istoken(line[i + j]) & j < 2)
+	while (istoken(line[i + j]) && j < 2)
 		j++;
 	if (istoken(line[i] == '|'))
 		j = 1;
 	if (istoken(line[i]) != istoken(line[i + 1]))
 		j = 1;
 	line[i + j] = 0;
-	return (line[i]);
+	return (&line[i]);
+}
+
+static int	check_last_redir(char *line)
+{
+	int	i;
+
+	i = ft_strlen(line) - 1;
+	while (line[i] && i >= 0 && ft_isspace(line[i]))
+		i--;
+	if (line[i] == '<' || line[i] == '>')
+		return (0);
 }
 
 // returns zero if syntax error with pipes in beginning or end
@@ -111,7 +106,7 @@ static int	check_pipes(char *line)
 {
 	int	i;
 
-	// first
+	i = 0;
 	while (line[i] && ft_isspace(line[i]))
 		i++;
 	if (line[i] == '|')

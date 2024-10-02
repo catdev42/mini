@@ -6,14 +6,14 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 20:00:21 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/02 11:26:12 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:11:23 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-# include "minishell.h"
+# include "./minishell.h"
 
 // enum e_tokentype
 // {
@@ -86,10 +86,19 @@ typedef struct s_tools
 	char		*line;
 	size_t		line_capacity;
 	char		*cleanline;
-	char		*ecline;
+	char		*e_cline;
+	char		*s;
+	char		*p;
+	char		*p_next;
+
+	char		*r;
+
 	size_t		cl_capacity;
-	int			num_pipes;
+	// int			num_pipes;
 	struct cmd	*tree;
+	// last empy pipe;
+	struct cmd	*tracktree;
+
 }				t_tools;
 
 // typedef struct line_saver
