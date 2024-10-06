@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/02 16:19:13 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/06 21:03:30 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define MINISHELL_H
 # include "../libft/libft.h"
 # include "builtins.h"
-// # include "lexer.h"
-// # include "parser.h"
 # include "structs.h"
 # include <fcntl.h>
 # include <readline/history.h>
@@ -25,6 +23,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/stat.h>
 # include <unistd.h>
 
 # define UNEXP "syntax error near unexpected token "
@@ -77,14 +76,14 @@ char		*get_var(char **env, char *var);
 /************************/
 struct cmd	*parseline(char *cline, t_tools *tools);
 struct cmd	*decide_pipe_right(t_tools *tools);
-char		*peek(char *line, t_tools *tools, int token);
-
+char		*peek(char *line, char *end, t_tools *tools, int token);
 /************************/
 /**** makestruct.c  *****/
 /************************/
 struct cmd	*makeexec(void);
-struct cmd	*makeredir(struct cmd *subcmd, char *file, char *efile, int mode,
-				int fd);
+struct cmd	*makeredir(struct cmd *subcmd, char *filename, int mode, int fd);
+// struct cmd	*makeredir(struct cmd *subcmd, char *file, char *efile,
+// int mode, int fd);
 struct cmd	*makepipe(struct cmd *left, struct cmd *right);
 
 /************************/
@@ -108,6 +107,8 @@ void		ft_bspace(void *s, size_t n);
 void		init_zero(size_t *i, size_t *j, char *c, char **c_line);
 int			check_quotes(char *line, int i);
 int			skip_quotes(char *line, int i);
+
+void		strip_quotes_final(char *start);
 
 /************************/
 /******* error.c ********/

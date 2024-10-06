@@ -6,7 +6,7 @@
 #    By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/17 15:27:14 by myakoven          #+#    #+#              #
-#    Updated: 2024/07/12 23:51:10 by myakoven         ###   ########.fr        #
+#    Updated: 2024/10/06 18:01:58 by myakoven         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,8 @@ fclean: clean
 	rm -rf $(NAME)
 	
 re: fclean all
+
+.PHONY: all clean fclean re
 
 # bonus:	$(OBJS) $(BONUS_OBJS)
 # 	ar rcs $(NAME) $(OBJS) $(BONUS_OBJS)

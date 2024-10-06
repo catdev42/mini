@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 21:14:03 by myakoven          #+#    #+#             */
-/*   Updated: 2024/08/22 16:45:35 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/06 20:10:42 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*ptr;
 
+	ptr = NULL;
 	ptr = malloc(nmemb * size);
 	if (ptr == NULL)
 		return (ptr);

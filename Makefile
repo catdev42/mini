@@ -32,11 +32,13 @@ $(OBJDIR)/%.o: %.c
 	mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) -c -o $@ $< -I$(HEADERS)
 
+$(LIBFT): runlibft
+
 runlibft:
 	$(MAKE) -C $(LIBDIR)
 
 
-$(NAME): runlibft $(OBJS) 
+$(NAME): $(LIBFT) $(OBJS) 
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME) 
 
 clean:

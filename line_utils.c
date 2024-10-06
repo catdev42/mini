@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:59:13 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/02 13:14:50 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/06 20:46:46 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	extend_cleanline(t_tools *tools, int add);
 
 // returns len of variable in line
-//This is an insanely confusing function - rewrite?
+// This is an insanely confusing function - rewrite?
 int	copy_var(char *c_line, char *line, t_tools *tools)
 {
 	char	*var;
@@ -26,7 +26,8 @@ int	copy_var(char *c_line, char *line, t_tools *tools)
 	var = NULL;
 	curr_cl_ind = c_line - tools->cleanline;
 	i = 1;
-	while (line[i] &&!ft_isspace(line[i]) && !isquote(line[i]) && !istoken(line[i]) && line[i] != '$') //????
+	while (line[i] && !ft_isspace(line[i]) && !isquote(line[i])
+		&& !istoken(line[i]) && line[i] != '$') //????
 		i++;
 	if (i == 1)
 		return (0);
@@ -37,7 +38,8 @@ int	copy_var(char *c_line, char *line, t_tools *tools)
 	free(var);
 	if (!var_result)
 		return (0);
-	if (tools->cl_capacity < ft_strlen(var_result) + ft_strlen(tools->cleanline))
+	if (tools->cl_capacity < ft_strlen(var_result)
+		+ ft_strlen(tools->cleanline))
 	{
 		extend_cleanline(tools, ft_strlen(var_result));
 		c_line = &(tools->cleanline[curr_cl_ind]);
@@ -77,18 +79,9 @@ void	remove_useless_quotes(char *cline)
 	// printf("%s\n", cline);
 	while (cline[i])
 	{
-		// 	if ((!ft_isspace(cline[i - 1])
-		// || !ft_isspace(cline[skip_quotes(cline,
-		// 					i) + 1])) && isquote(cline[i]))
-		// !ft_isspace(cline[i - 1]) &&
 		if (isquote(cline[i]))
 		{
-			// printf("\n '%c'&'%c' \n", ft_isspace(cline[i - 1]),
-			// 	ft_isspace(cline[skip_quotes(cline, i) + 1]));
-			// printf("i should not be here IF there is a space before quote");
 			quotechar = cline[i];
-			/* if (i > 0 && !ft_isspace(cline[i - 1])) //&& !istoken(cline[i
-				- 1]) */
 			firstquote = &cline[i];
 			i++;
 			while (cline[i] && cline[i] != quotechar)
@@ -105,12 +98,6 @@ void	remove_useless_quotes(char *cline)
 				i -= 2;
 			}
 		}
-		// else if (isquote(cline[i]))
-		// {
-		// 	// if (!check_quotes(cline, i))
-		// 	// 	return ;
-		// 	i = skip_quotes(cline, i);
-		// }
 		i++;
 	}
 }

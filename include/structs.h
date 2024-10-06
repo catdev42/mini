@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 20:00:21 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/02 19:19:33 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/06 20:06:54 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 
 # include "./minishell.h"
 
-// enum e_tokentype
-// {
-// 	NONE,
-// 	PIPE,
-// 	INPUT,
-// 	HEREDOC,
-// 	OUTFILE,
-// 	OUTFILE_APPEND,
-// };
+enum e_tokentype
+{
+	NONE,
+	PIPE,
+	INPUT,
+	HEREDOC,
+	OUTFILE,
+	OUTFILE_APPEND,
+};
 
 /* Type of node */
 # define EXEC 1
@@ -97,7 +97,10 @@ typedef struct s_tools
 	// int			num_pipes;
 	struct cmd	*tree;
 	// last empy pipe;
+	struct cmd	*lastpipe;
+	// temp holder
 	struct cmd	*tracktree;
+
 
 }				t_tools;
 

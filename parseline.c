@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:42:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/02 19:41:59 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/06 21:51:37 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,33 @@
 
 struct cmd	*parseline(char *cline, t_tools *tools)
 {
-	// int	pipe;
-	// pipe = peek(tools, PIPE);
-	// if (pipe)
-	// 	;
-	// return (ret);
+	struct execcmd	*ecmd;
+	struct cmd		*ret;
+
+	tools->p = NULL;
+	tools->lastpipe = NULL;
 	tools->s = cline;
+	tools->tree = NULL;
 	while (1)
 	{
 		tools->p = peek(tools->s, tools->e_cline, tools, PIPE);
 		if (tools->p)
-			decide_pipe_right(tools);
+		{
+			// FIX THIS: TOO MANY PIPE STRUCTS
+			tools->lastpipe = decide_pipe_right(tools);
+			if (!tools->lastpipe)
+				return (NULL);
+			if (!tools->tree)
+				tools->tree = tools->lastpipe;
+		}
 		else
 			break ;
 		tools->s = tools->p + 1;
 		tools->p = NULL;
 	}
-	parseexec(tools->s, tools->e_cline, tools);
+	if (!tools->tree)
+		tools->tree = parseexec(tools->s, tools->e_cline, tools);
+	return (tools->tree);
 }
 
 /*
@@ -40,75 +50,31 @@ and pointing to the next command parsed or and empty pipe	struct;
 */
 struct cmd	*decide_pipe_right(t_tools *tools)
 {
+	struct execcmd	*ecmdLeft;
+	struct execcmd	*ecmdRight;
+
 	// while ((struct pipecmd *)tools->tree)
 	// 	tools->p_next = !peek(tools->p + 1, tools, PIPE);
 	if (!peek(tools->p + 1, tools->e_cline, tools, PIPE))
 	{
-		return (makepipe(parseexec(tools->s, tools->p, tools),
-				parseexec(tools->p + 1, tools->e_cline, tools)));
+		ecmdLeft = parseexec(tools->s, tools->p, tools);
+		if (!ecmdLeft)
+			return (0);
+		ecmdLeft = parseexec(tools->p + 1, tools->e_cline, tools);
+		if (!ecmdRight)
+		{
+			cleanexec(ecmdLeft); //TODO
+			return (0);
+		}
+		return (makepipe(ecmdLeft, ecmdRight));
 	}
 	else
 	{
-		tools->tracktree = makepipe(NULL, NULL);
-		return (makepipe(parseexec(tools->s, tools->p, tools),
-				tools->tracktree));
+		// tools->tracktree = makepipe(NULL, NULL); // CHECK TO DO
+		return (makepipe(parseexec(tools->s, tools->p, tools), NULL));
 	}
 }
 
-struct cmd	*parseexec(char *start, char *end_of_exec, t_tools *tools)
-{
-	struct execcmd	*ecmd;
-	struct redircmd	*rcmd;
-	struct cmd		*ret;
-	int				i;
-
-	i = 0;
-	ecmd = NULL;
-	rcmd = NULL;
-	ret = NULL;
-	ecmd = makeexec();
-	if (peek(start, end_of_exec, tools, REDIR))
-	{
-		rcmd = parseredir(start, end_of_exec, tools); // TODO
-		i++;
-	}
-}
-
-struct cmd	*parseredir(char *start, char *end_of_exec, t_tools *tools)
-{
-	struct redircmd	*rcmd;
-	int				i;
-	int				term;
-	int				j;
-
-	term = 0;
-	i = 0;
-	while (start[i] != '<' || start[i] != '>')
-		i++;
-	if (start[i] == '<')
-	{
-		j = 0;
-		while (start[i + j])
-		{
-			if (start[i + j] == '\'' || start[i + j] == '"')
-				j = skip_quotes(start, i + j) - i;
-			if (ft_isspace(start[i + j]))
-				break ;
-			j++;
-		}
-		term = i + j;
-		// TODO HEREDOC
-		// TODO CHECK FOR DIRECTORY
-		// DO NOT DELETE THIS NOTE
-		// if (start[i + 1] == '<')
-		// 	; /*TODO HEREDOC*/
-		// else
-		// struct cmd * makeredir(struct cmd *subcmd, char *file,
-		// char *efile, int mode, int fd)
-		rcmd = (struct redircmd *)(makeredir(NULL, &start[++i], &start[term],
-					O_WRONLY | O_TRUNC | O_CREAT, 0));
-	}
-}
 
 char	*peek(char *line, char *end, t_tools *tools, int token)
 {

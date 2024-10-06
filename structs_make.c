@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   makestruct.c                                       :+:      :+:    :+:   */
+/*   structs_make.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:07:28 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/02 11:23:50 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/06 21:03:19 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,19 @@ struct cmd	*makeexec(void)
 	return ((struct cmd *)cmd);
 }
 
-struct cmd	*makeredir(struct cmd *subcmd, char *file, char *efile, int mode,
-		int fd)
+struct cmd	*makeredir(struct cmd *subcmd, char *filename, int mode, int fd)
 {
 	struct redircmd	*cmd;
 
 	cmd = malloc(sizeof(*cmd));
+	if (!cmd)
+		return (0);
 	memset(cmd, 0, sizeof(*cmd));
 	cmd->type = REDIR;
 	cmd->cmd = subcmd;
-	cmd->file = file;
-	cmd->efile = efile;
+	// cmd->file = file;
+	// cmd->efile = efile;
+	cmd->file = filename;
 	cmd->mode = mode;
 	cmd->fd = fd;
 	return ((struct cmd *)cmd);

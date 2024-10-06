@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/02 13:13:33 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/06 17:00:21 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,27 @@ int	shell_loop(t_tools *tools)
 	return (0);
 }
 
+//check the entire line for quotes with 0 returns if its not valid and 1 if it is
+int	valid_quotes(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (isquote(line[i]))
+		{
+			if (!check_quotes(line, i))
+				return (0);
+			i = skip_quotes(line, i);
+		}
+		i++;
+	}
+	return (1);
+}
 
 
+//CHECK IF THIS SHOULD BE A BUILTIN??? TODO TO DO
 /* Liretally checks if exit was typed into the line as the first command */
 void	checkexit(t_tools *tools)
 {
@@ -109,3 +128,4 @@ void	init_sa(struct sigaction *sa)
 		exit(1);
 	}
 }
+
