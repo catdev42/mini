@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:22:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/06 21:33:17 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:05:07 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,40 +41,31 @@ int	print_error(char *errline, char *errarg)
 	return (0);
 }
 
-// int	print_error_errno(void)
-// {
-// 	// ft_putstr_fd("msh: ", 2);
-// 	perror("msh");
-// }
-
 /*
+FOR EXITING!
+0: CTRL D
 1: malloc
-2: quotes (changed behavior now, should delete)
-3: control_D (changed behavior, should delete)
+3: just exit(1) nothing printed
 */
-
 int	error_exit(t_tools *tools, int error)
 {
 	clean_tools(tools);
 	clear_history();
-	if (error == 0)
+	if (error == 0) //CTRL D or EXIT SUCCESS
 	{
-		exit(1);
+		
+		// ft_putstr_fd("Control D was pressed", 2);
+		exit(0); // do we need our own builtuin?
 	}
 	else if (error == 1)
 	{
-		ft_putstr_fd("minishell: Problem with malloc", 2);
+		// ft_putstr_fd("minishell: Problem with malloc", 2);
+		perror("msh:");
 		exit(1);
 	}
 	else if (error == 2)
 	{
-		ft_putstr_fd("minishell: Unclosed quotes, please try again", 2);
-		exit(1);
-	}
-	else if (error == 3)
-	{
-		// ft_putstr_fd("Control D was pressed", 2);
-		exit(0);
+		exit(1); 
 	}
 	return (1);
 }

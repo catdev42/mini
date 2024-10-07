@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/06 17:00:21 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:21:54 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc > 1 || argv[1])
 		ft_putstr_fd("This program does not accept arguments\n", 2);
-	init_tools(&tools);
+	ft_memset(&tools, 0, sizeof(t_tools)); // init tools to zero
 	tools.env = copy_env(&tools, env);
 	if (!tools.env)
 		return (error_exit(&tools, 1));
@@ -36,11 +36,11 @@ int	shell_loop(t_tools *tools)
 {
 	while (1)
 	{
-		if (tools->line)
-			// TODO Change into full cleanup except ENV variable && history
-			free(tools->line);
+		if (global_signal == SIGTERM) // TODO? or done
+			break ;
+		reset_tools(tools);
 		tools->line = readline("minishell: ");
-		checkexit(tools);
+		checkexit(tools); // We have to make our own exit builtin?
 		global_signal = 0;
 		if (!valid_line(tools->line))
 			continue ;
@@ -51,16 +51,10 @@ int	shell_loop(t_tools *tools)
 				tools);
 		if (!tools->cleanline)
 			continue ;
-		// if (!tools->cleanline)
-		// 	error_exit(tools, 1);
-		ft_putstr_fd(tools->cleanline, 1);
-		ft_putstr_fd("\n", 1);
-		// if (lexer(tools))
-		// {
-		// 	printf("%s\n", tools->line);
-		// 	print_tab(tools->lexed);
-		// 	parser(tools);
-		// }
+		ft_putstr_fd(tools->cleanline, 1); // testing
+		ft_putstr_fd("\n", 1);             // testing
+		if (!parseline(tools->cleanline, tools))
+			continue ;
 		if (global_signal == SIGTERM) // TODO? or done
 			break ;
 	}
@@ -68,7 +62,7 @@ int	shell_loop(t_tools *tools)
 	return (0);
 }
 
-//check the entire line for quotes with 0 returns if its not valid and 1 if it is
+// check the entire line for quotes with 0 returns if its not valid and 1 if it is
 int	valid_quotes(char *line)
 {
 	int	i;
@@ -87,14 +81,13 @@ int	valid_quotes(char *line)
 	return (1);
 }
 
-
-//CHECK IF THIS SHOULD BE A BUILTIN??? TODO TO DO
+// CHECK IF THIS SHOULD BE A BUILTIN??? TODO TO DO
 /* Liretally checks if exit was typed into the line as the first command */
 void	checkexit(t_tools *tools)
 {
 	if (!tools->line || (!strncmp(tools->line, "exit", 4)
 			&& (ft_isspace(tools->line[5]) || tools->line[5] == 0)))
-		error_exit(tools, 3);
+		error_exit(tools, 0);
 }
 
 void	new_line(void)
@@ -128,4 +121,3 @@ void	init_sa(struct sigaction *sa)
 		exit(1);
 	}
 }
-

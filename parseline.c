@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:42:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/07 15:24:12 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:45:17 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,55 @@ struct cmd	*parseline(char *cline, t_tools *tools)
 		right = NULL;
 		tools->cmd_end = peek(tools->s, tools->e_cline, tools, PIPE);
 		left = parseexec(tools->s, tools->e_cline, tools);
+		if (!left)
+			return (NULL);
+		// ERROR MANAGEMENT:
+		// (print error message in parseexec(),
+		// give cursor to user in loop)
 		tools->s = tools->cmd_end + 1;
 		if (peek(tools->s, tools->e_cline, tools, PIPE))
 			right = NULL;
 		else
+		{
 			right = parseexec(tools->s, tools->e_cline, tools);
-
-		// this could be inside makepipe???
+			if (!right)
+				return (clean_execs(left, NULL));
+			// ERROR MANAGEMENT:
+			// (print error message in parseexec(),
+			// give cursor to user in loop)
+		}
 		createpipe(left, right, tools);
-		// if (tools->lastpipe)
-		// {
-		// 	tools->lastpipe->right = makepipe(left, right);
-		// 	tools->lastpipe = (struct pcmd *)tools->lastpipe->right;
-		// }
-		// else
-		// 	tools->lastpipe = (struct pcmd *)makepipe(left, right);
-		if (!tools->tree)
-			tools->tree = tools->lastpipe;
+		// pipe creation (exits from there if malloc error)
 	}
 	if (!tools->tree)
 		tools->tree = parseexec(tools->s, tools->e_cline, tools);
 	return (tools->tree);
 }
+
+/* Helper for parseline and pipe creation: determines where to attach the pipe */
+struct cmd	*createpipe(struct cmd *left, struct cmd *right, t_tools *tools)
+{
+	if (tools->lastpipe)
+	{
+		tools->lastpipe->right = makepipe(left, right);
+		tools->lastpipe = (struct pcmd *)tools->lastpipe->right;
+	}
+	else
+		tools->lastpipe = (struct pcmd *)makepipe(left, right);
+	if (!tools->lastpipe)
+	{
+		clean_execs(left, right);
+		error_exit(tools, 1); // EXITS ENTIRE PROGRAM ON ALLOCATION ERROR!
+	}
+	if (!tools->tree)
+		tools->tree = tools->lastpipe;
+	return (tools->lastpipe);
+}
+
+
+
+
+
 
 // struct cmd	*parseline(char *cline, t_tools *tools)
 // {
