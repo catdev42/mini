@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 20:00:21 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/06 20:06:54 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:42:22 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "./minishell.h"
 
-enum e_tokentype
+enum				e_tokentype
 {
 	NONE,
 	PIPE,
@@ -42,67 +42,67 @@ enum e_tokentype
 // 	t_token		*redir_tokens;
 // }				t_parsed;
 
-struct			cmd
+struct				cmd
 {
-	int			type;
+	int				type;
 };
 
-struct			execcmd
+struct				execcmd
 {
-	int			type;
-	char		*argv[20];
-	char		*eargv[20];
+	int				type;
+	char			*argv[20];
+	char			*eargv[20];
 };
 
-struct			redircmd
+struct				redircmd
 {
-	int			type;
+	int				type;
 	// 0xt thing redir or exec
-	struct cmd	*cmd;
+	struct cmd		*cmd;
 	// pointer to filename
-	char		*file;
+	char			*file;
 	// pointer to end of the file name for nullify
-	char		*efile;
+	char			*efile;
 	// 0 for read, 1 for write and truncate, 2 for append?
-	int			mode;
+	int				mode;
 	// fd of the opened file?
-	int			fd;
+	int				fd;
 };
 
-struct			pipecmd
+struct				pipecmd
 {
-	int			type;
+	int				type;
 	// execute first
-	struct cmd	*left;
+	struct cmd		*left;
 	// pipe into - this can also become the next pipe's left side
-	struct cmd	*right;
+	struct cmd		*right;
 };
 
 typedef struct s_tools
 {
-	int			env_len;
-	char		**env;
+	int				env_len;
+	char			**env;
 
-	char		*line;
-	size_t		line_capacity;
-	char		*cleanline;
-	char		*e_cline;
-	char		*s;
-	char		*p;
-	char		*p_next;
+	char			*line;
+	size_t			line_capacity;
+	char			*cleanline;
+	char			*e_cline;
 
-	char		*r;
+	char			*s;
+	char			*cmd_end;
+	char			*p;
+	char			*p_next;
+	char			*r;
 
-	size_t		cl_capacity;
+	size_t			cl_capacity;
 	// int			num_pipes;
-	struct cmd	*tree;
+	struct cmd		*tree;
 	// last empy pipe;
-	struct cmd	*lastpipe;
+	struct pipecmd	*lastpipe; //do not free/// it gets freed when tree is cleaned
 	// temp holder
-	struct cmd	*tracktree;
+	struct cmd		*tracktree;
 
-
-}				t_tools;
+}					t_tools;
 
 // typedef struct line_saver
 // {
