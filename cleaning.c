@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:22:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/07 16:29:19 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/07 19:23:07 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	reset_tools(t_tools *tools)
 	// tools->lex_len = 0;
 	// tools->num_pipes = 0;
 }
+
+/*
 typedef struct s_tools
 {
 	int		env_len;
@@ -82,3 +84,4 @@ typedef struct s_tools
 	// struct cmd		*tracktree;
 
 }			t_tools;
+*/

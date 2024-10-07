@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 20:00:21 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/07 14:42:22 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/07 19:23:41 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,12 @@ typedef struct s_tools
 	// int			num_pipes;
 	struct cmd		*tree;
 	// last empy pipe;
-	struct pipecmd	*lastpipe; //do not free/// it gets freed when tree is cleaned
+	struct pipecmd	*lastpipe;
+	// do not free/// it gets freed when tree is cleaned
+	struct redircmd	*lastredir;
+	// do not free/// it gets freed when tree is cleaned
 	// temp holder
-	struct cmd		*tracktree;
-
+	// struct cmd		*tracktree;
 }					t_tools;
 
 // typedef struct line_saver
