@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/07 22:58:23 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/08 18:41:05 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 // volatile sig_atomic_t	global_signal = 0;
 
+void	walking(struct cmd *cmd); 
 /************************/
 /******** main.c ********/
 /************************/
@@ -43,7 +44,7 @@ void		checkexit(t_tools *tools);
 /************************/
 /******* init.c ********/
 /************************/
-void		init_tools(t_tools *tools);
+// void		init_tools(t_tools *tools);
 
 /************************/
 /*******  env.c  ********/
@@ -76,14 +77,24 @@ int			remove_two(char *first, char *second);
 /******* parseline.c ********/
 /************************/
 struct cmd	*parseline(char *cline, t_tools *tools);
-struct cmd	*decide_pipe_right(t_tools *tools);
+// struct cmd	*decide_pipe_right(t_tools *tools);
 char		*peek(char *line, char *end, t_tools *tools, int token);
+struct cmd	*parseexec(char *start, char *end_of_exec, t_tools *tools);
+struct cmd	*createpipe(struct cmd *left, struct cmd *right, t_tools *tools);
 
+struct cmd	*parse_redirs(char *start, char *end_of_exec, t_tools *tools);
+struct cmd	*createredir(char *filestart, int mode, int fd, t_tools *tools);
+char		*get_token_end(char *namestart);
+
+struct cmd	*parseargv(char *start, char *end, t_tools *tools);
+int			skip_token(char *start, int i);
 /************************/
 /****  makestruct.c  ****/
 /****** allocation ******/
 struct cmd	*makeexec(void);
-struct cmd	*makeredir(struct cmd *subcmd, char *filename, int mode, int fd);
+struct cmd	*makeredir(char *file, char *efile, int mode, int fd);
+// struct cmd	*makeredir(struct cmd *subcmd, char *filename, int mode,
+// int fd);
 // struct cmd	*makeredir(struct cmd *subcmd, char *file, char *efile,
 // int mode, int fd);
 struct cmd	*makepipe(struct cmd *left, struct cmd *right);
@@ -120,6 +131,7 @@ int			print_error(char *errline, char *errarg);
 /******* cleaning.c ********/
 /************************/
 struct cmd	*clean_execs(struct cmd *first, struct cmd *second);
+void		reset_tools(t_tools *tools);
 
 /************************/
 /******* built_ins.c ********/

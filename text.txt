@@ -1,7 +1,1 @@
-text one
-
-cat
-
 hello
-
-dog

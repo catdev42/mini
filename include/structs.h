@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 20:00:21 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/08 00:55:22 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/08 17:01:45 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ struct				cmd
 struct				execcmd
 {
 	int				type;
-	char			*argv[MAXARGS]; 
-	char			*eargv[MAXARGS]; 
+	char			*argv[MAXARGS];
+	char			*eargv[MAXARGS];
 };
 
 struct				redircmd
@@ -85,8 +85,10 @@ typedef struct s_tools
 
 	char			*line;
 	size_t			line_capacity;
+
 	char			*cleanline;
 	char			*e_cline;
+	size_t			cl_capacity;
 
 	char			*s;
 	char			*cmd_end;
@@ -94,16 +96,11 @@ typedef struct s_tools
 	char			*p_next;
 	char			*r;
 
-	size_t			cl_capacity;
-	// int			num_pipes;
 	struct cmd		*tree;
-	// last empy pipe;
 	struct pipecmd	*lastpipe;
 	// do not free/// it gets freed when tree is cleaned
 	struct redircmd	*lastredir;
 	// do not free/// it gets freed when tree is cleaned
-	// temp holder
-	// struct cmd		*tracktree;
 }					t_tools;
 
 // typedef struct line_saver
