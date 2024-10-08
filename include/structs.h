@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 20:00:21 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/07 19:23:41 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/08 00:55:22 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 
 # include "./minishell.h"
 
-enum				e_tokentype
-{
-	NONE,
-	PIPE,
-	INPUT,
-	HEREDOC,
-	OUTFILE,
-	OUTFILE_APPEND,
-};
+// enum				e_tokentype
+// {
+// 	NONE,
+// 	PIPE,
+// 	INPUT,
+// 	HEREDOC,
+// 	OUTFILE,
+// 	OUTFILE_APPEND,
+// };
 
 /* Type of node */
 # define EXEC 1
@@ -50,8 +50,8 @@ struct				cmd
 struct				execcmd
 {
 	int				type;
-	char			*argv[20];
-	char			*eargv[20];
+	char			*argv[MAXARGS]; 
+	char			*eargv[MAXARGS]; 
 };
 
 struct				redircmd

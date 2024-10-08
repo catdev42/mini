@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/07 16:29:45 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/07 22:58:23 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int			copy_spaces(char *c_line, char *line);
 /******** line_utils.c ********/
 int			copy_var(char *c_line, char *line, t_tools *tools);
 void		remove_useless_quotes(char *cline);
-void		remove_two(char *first, char *second);
+int			remove_two(char *first, char *second);
 
 /************************/
 /******* parseline.c ********/

@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:59:13 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/06 20:46:46 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/07 22:52:36 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,15 +105,24 @@ void	remove_useless_quotes(char *cline)
 /*
 Removes 2 characters from a string, rewriting the string in the process.
 Used to remove quotes in this program.
+Returns the number of characters removed.
 */
-void	remove_two(char *first, char *second)
+int	remove_two(char *first, char *second)
 {
+	int	i;
+
+	i = 0;
 	// printf("im in remove 2\n");
 	if (second)
 	{
 		// printf(" %p - nothing???", second);
 		ft_memmove(second, second + 1, ft_strlen(second + 1) + 1);
+		i++;
 	}
 	if (first)
+	{
 		ft_memmove(first, first + 1, ft_strlen(first + 1) + 1);
+		i++;
+	}
+	return (i);
 }

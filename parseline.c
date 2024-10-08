@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:42:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/07 16:45:17 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/08 01:19:14 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,62 @@ struct cmd	*createpipe(struct cmd *left, struct cmd *right, t_tools *tools)
 	return (tools->lastpipe);
 }
 
+struct cmd	*parseexec(char *start, char *end_of_exec, t_tools *tools)
+{
+	struct cmd	*ret;
 
+	ret = NULL;
+	if (peek(start, end_of_exec, tools, REDIR))
+	{
+		ret = parse_redirs(start, end_of_exec, tools);
+		if (!ret)
+			return (NULL);
+	}
+	if (!ret)
+		ret = getexec(start, end_of_exec, tools);
+	else
+		tools->lastredir->cmd = getexec(start, end_of_exec, tools);
+	return (ret);
+}
+
+char	*peek(char *line, char *end, t_tools *tools, int token)
+{
+	char	*tokenaddress;
+	int		i;
+	char	tokenchar;
+
+	tokenaddress = 0;
+	i = 0;
+	tokenchar = 0;
+	if (token == PIPE)
+	{
+		tokenchar = '|';
+		i = 0;
+		while (line[i] && line[i] != '|')
+		{
+			if (isquote(line[i]))
+				i = skip_quotes(line, i);
+			if (line[i] == '|')
+			{
+				tokenaddress = &line[i];
+			}
+			i++;
+		}
+	}
+	if (token == REDIR)
+	{
+		i = 0;
+		while (line[i] && isredir(line[i]) && &line[i] < end)
+		{
+			if (isquote(line[i]))
+				i = skip_quotes(line, i);
+			if (isredir(line[i]))
+				tokenaddress = &line[i];
+			i++;
+		}
+	}
+	return (tokenaddress);
+}
 
 
 
@@ -113,45 +168,6 @@ struct cmd	*createpipe(struct cmd *left, struct cmd *right, t_tools *tools)
 // 		tools->tree = parseexec(tools->s, tools->e_cline, tools);
 // 	return (tools->tree);
 // }
-
-char	*peek(char *line, char *end, t_tools *tools, int token)
-{
-	char	*tokenaddress;
-	int		i;
-	char	tokenchar;
-
-	tokenaddress = 0;
-	i = 0;
-	tokenchar = 0;
-	if (token == PIPE)
-	{
-		tokenchar = '|';
-		i = 0;
-		while (line[i] && line[i] != '|')
-		{
-			if (isquote(line[i]))
-				i = skip_quotes(line, i);
-			if (line[i] == '|')
-			{
-				tokenaddress = &line[i];
-			}
-			i++;
-		}
-	}
-	if (token == REDIR)
-	{
-		i = 0;
-		while (line[i] && isredir(line[i]) && &line[i] < end)
-		{
-			if (isquote(line[i]))
-				i = skip_quotes(line, i);
-			if (isredir(line[i]))
-				tokenaddress = &line[i];
-			i++;
-		}
-	}
-	return (tokenaddress);
-}
 
 /*
 // Uses tools->s, tools->p and tools->p_next

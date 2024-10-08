@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 21:35:52 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/07 16:22:31 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/08 00:53:14 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ struct cmd	*makeexec(void)
 	cmd->type = EXEC;
 	return ((struct cmd *)cmd);
 }
+// redircmd(struct cmd *subcmd, char *file, char *efile, int mode, int fd)
 
-struct cmd	*makeredir(struct cmd *subcmd, char *filename, int mode, int fd)
+struct cmd	*makeredir(char *file, char *efile, int mode, int fd)
 {
 	struct redircmd	*cmd;
 
@@ -32,10 +33,10 @@ struct cmd	*makeredir(struct cmd *subcmd, char *filename, int mode, int fd)
 		return (0);
 	memset(cmd, 0, sizeof(*cmd));
 	cmd->type = REDIR;
-	cmd->cmd = subcmd;
+	cmd->cmd = NULL;
+	cmd->file = file;
+	cmd->efile = efile;
 	// cmd->file = file;
-	// cmd->efile = efile;
-	cmd->file = filename;
 	cmd->mode = mode;
 	cmd->fd = fd;
 	return ((struct cmd *)cmd);
