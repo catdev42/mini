@@ -6,11 +6,11 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 21:50:32 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:55:15 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "./include/minishell.h"
 
 /* 	CHECKS IF THE COMMAND LINE IS EMPTY
 	Returns 1 if there is anything except spaces in a line */

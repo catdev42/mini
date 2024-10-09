@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 20:00:21 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/08 17:01:45 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:54:30 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ struct				pipecmd
 	// pipe into - this can also become the next pipe's left side
 	struct cmd		*right;
 };
+
+typedef struct execcmd	t_execcmd;
+typedef struct pipecmd	t_pipecmd;
+typedef struct redircmd	t_redircmd;
+typedef struct cmd		t_cmd;
 
 typedef struct s_tools
 {

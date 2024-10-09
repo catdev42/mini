@@ -6,12 +6,11 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 21:35:52 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/08 00:53:14 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:55:37 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
+#include "./include/minishell.h"
 
 struct cmd	*makeexec(void)
 {
