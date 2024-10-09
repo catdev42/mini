@@ -6,11 +6,39 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 20:33:23 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 23:06:20 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:47:52 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
+
+/* PRINTS A 2D ARRAY */
+int	print_tab(char **envp)
+{
+	size_t	i;
+
+	i = 0;
+	if (!envp || !*envp)
+		return (0);
+	while (envp[i])
+	{
+		printf("%s\n", envp[i]);
+		i++;
+	}
+	return (1);
+}
+
+int	get_matrix_len(char **matrix)
+{
+	int	i;
+
+	if (!matrix || !*matrix)
+		return (0);
+	i = 0;
+	while (matrix[i])
+		i++;
+	return (i);
+}
 
 /*
 Provide the pointer to line and the index you are currently on
@@ -62,9 +90,9 @@ int	infile_or_outfile(char *start)
 	return (-1);
 }
 
+/* Checks if a path is a file or directory File: 1; Dir: 2; Neither: 0 */
 
-
-/* Checks if a path is a file or directory File: 1; Dir: 2; Neither: 0*/
+/*
 int	file_dir_noexist(const char *path, int fd_in_or_out)
 {
 	struct stat	path_stat;
@@ -73,7 +101,7 @@ int	file_dir_noexist(const char *path, int fd_in_or_out)
 	{
 		if (errno == ENOENT && fd_in_or_out == 1)
 			return (1);
-		/* this should be checked only with infiles*/
+		// this should be checked only with infiles
 		print_error(path, strerror(errno), NULL);
 		return (0);
 	}
@@ -85,3 +113,4 @@ int	file_dir_noexist(const char *path, int fd_in_or_out)
 		print_error(path, "Is neither a file nor a directory", NULL);
 	return (0);
 }
+*/

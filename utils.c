@@ -6,11 +6,30 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 21:55:15 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:47:36 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
+
+// check the entire line for quotes with 0 returns if its not valid and 1 if it is
+int	valid_quotes(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (isquote(line[i]))
+		{
+			if (!check_quotes(line, i))
+				return (0);
+			i = skip_quotes(line, i);
+		}
+		i++;
+	}
+	return (1);
+}
 
 /* 	CHECKS IF THE COMMAND LINE IS EMPTY
 	Returns 1 if there is anything except spaces in a line */
@@ -26,22 +45,6 @@ int	valid_line(char *line)
 		i++;
 	}
 	return (0);
-}
-
-/* PRINTS A 2D ARRAY */
-int	print_tab(char **envp)
-{
-	size_t	i;
-
-	i = 0;
-	if (!envp || !*envp)
-		return (0);
-	while (envp[i])
-	{
-		printf("%s\n", envp[i]);
-		i++;
-	}
-	return (1);
 }
 
 int	istoken(char c)

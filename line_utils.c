@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:59:13 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/07 22:52:36 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/10 00:05:21 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	extend_cleanline(t_tools *tools, int add);
 
-// returns len of variable in line
-// This is an insanely confusing function - rewrite?
+/* EXPANDS: Returns len of variable in line */
+/* This is an insanely confusing function - rewrite? */
 int	copy_var(char *c_line, char *line, t_tools *tools)
 {
 	char	*var;
@@ -27,8 +27,9 @@ int	copy_var(char *c_line, char *line, t_tools *tools)
 	curr_cl_ind = c_line - tools->cleanline;
 	i = 1;
 	while (line[i] && !ft_isspace(line[i]) && !isquote(line[i])
-		&& !istoken(line[i]) && line[i] != '$') //????
+		&& !istoken(line[i]) && line[i] != '$')
 		i++;
+	// once we pass the $, if there is nothing except symbols, return 0
 	if (i == 1)
 		return (0);
 	var = ft_substr(line, 1, i - 1);
@@ -76,7 +77,6 @@ void	remove_useless_quotes(char *cline)
 	secondquote = 0;
 	i = 0;
 	quotechar = 0;
-	// printf("%s\n", cline);
 	while (cline[i])
 	{
 		if (isquote(cline[i]))

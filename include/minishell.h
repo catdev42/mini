@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 22:56:20 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:52:32 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	ft_bspace(void *s, size_t n); */
 /******* utils2.c ********/
 int				get_matrix_len(char **matrix);
 char			*safe_calloc(size_t nmemb, size_t size, t_tools *tools);
-void			init_zero(size_t *i, size_t *j, char *c, char **c_line);
+void			init_zero(size_t *i, size_t *j, char **c_line);
 void			strip_quotes_final(char *start);
 char			*get_token_end(char *namestart);
 

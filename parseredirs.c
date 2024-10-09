@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 19:16:34 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 23:07:03 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:39:52 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ struct s_cmd	*parse_redirs(char *start, char *end_of_exec, t_tools *tools)
 		{
 			fd_in_or_out = infile_or_outfile(start);
 			mode = check_file_type(start, fd_in_or_out, tools); // TODO !!!
-			if (!mode)
+			if (mode == -1)
 				return (NULL);
 			if (start[1] == start[0])
 				start++;
@@ -71,48 +71,25 @@ int	check_file_type(char *start, int fd_in_or_out, t_tools *tools)
 	filepath = get_redir_path(start, tools);
 	// printf("\n %s \n", filepath);
 	fileordir = file_dir_noexist(filepath, fd_in_or_out);
+	if (fileordir == 0)
+	{
+		return (-1);
+	}
 	if (start[0] == '>' && fileordir == 2)
 		print_error(filepath, "Is a directory", NULL);
 	free(filepath);
-	if (fileordir == 0)
-		return (0);
 	if (fileordir == 1 && start[0] == '>' && start[1] == '>')
 		return (O_WRONLY | O_CREAT | O_APPEND);
 	else if (fileordir == 1 && start[0] == '>')
 		return (O_WRONLY | O_CREAT | O_TRUNC);
-	// else if (start[0] == '<' &&start[1] == '<')
-	// 		; //HEREDOC?
 	else if (fileordir == 1 && start[0] == '<')
 		return (O_RDONLY);
 	else if (fileordir == 2 && start[0] == '<')
 		return (O_RDONLY | O_DIRECTORY);
+	// printf("NONE OF THE CONDITIONS WERE MET!");
 	return (0);
-}
-
-/* allocates a filename/path: must be freed */
-char	*get_redir_path(char *redir, t_tools *tools)
-{
-	int		i;
-	char	*filename;
-	int		start;
-
-	i = 0;
-	while (redir[i] && isredir(redir[i]))
-	{
-		i++;
-	}
-	start = i;
-	while (redir[i] && !ft_isspace(redir[i]))
-	{
-		if (isquote(redir[i]))
-			i = skip_quotes(redir, i);
-		i++;
-	}
-	filename = ft_substr(redir, start, i);
-	if (!filename)
-		error_exit(tools, 1);
-	strip_quotes_final(filename);
-	return (filename);
+	// else if (start[0] == '<' &&start[1] == '<')
+	// 		; //HEREDOC?
 }
 
 struct s_cmd	*createredir(char *filestart, int mode, int fd, t_tools *tools)
@@ -132,6 +109,30 @@ struct s_cmd	*createredir(char *filestart, int mode, int fd, t_tools *tools)
 	if (!tools->lastredir)
 		error_exit(tools, 1);
 	return ((struct s_cmd *)tools->lastredir);
+}
+
+/* Checks if a path is a file or directory File: 1; Dir: 2; Neither: 0*/
+int	file_dir_noexist(const char *path, int fd_in_or_out)
+{
+	struct stat	path_stat;
+
+	if (stat(path, &path_stat) != 0)
+	{
+		if (errno == ENOENT && fd_in_or_out == 1)
+			return (1);
+		/* this should be checked only with infiles*/
+		print_error(path, strerror(errno), NULL);
+		return (0);
+	}
+	if (S_ISREG(path_stat.st_mode))
+	{
+		return (1);
+	}
+	else if (S_ISDIR(path_stat.st_mode))
+		return (2);
+	else
+		print_error(path, "Is neither a file nor a directory", NULL);
+	return (0);
 }
 
 /* parseexex() > (peek redir) > parse_redirs > parse_exec > connect things */

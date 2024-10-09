@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean.c                                            :+:      :+:    :+:   */
+/*   cleantree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:22:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 23:16:26 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:58:15 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,45 @@ void	reset_tools(t_tools *tools)
 	tools->e_cline = NULL;
 }
 
-void	clean_tools(t_tools *tools)
+static void	handle_exec(struct s_execcmd *cmd)
 {
-	reset_tools(tools);
-	if (tools->env)
-		ft_freetab(tools->env, INT_MAX);
+	free(cmd);
 }
 
-struct s_cmd	*clean_execs(struct s_cmd *first, struct s_cmd *second)
+static void	handle_redir(struct s_redircmd *cmd)
 {
-	struct s_redircmd	*rcmd;
+	tree_free(cmd->cmd);
+}
 
-	if (first)
+static void	handle_pipe(struct s_pipecmd *cmd)
+{
+	tree_free(cmd->left);
+	tree_free(cmd->right);
+}
+
+void	tree_free(struct s_cmd *node)
+{
+	struct s_execcmd	*ecmd;
+	struct s_redircmd	*rcmd;
+	struct s_pipecmd	*pcmd;
+
+	ecmd = NULL;
+	pcmd = NULL;
+	rcmd = NULL;
+	if (node && node->type == EXEC)
 	{
-		if (first->type == REDIR)
-		{
-			rcmd = (struct s_redircmd *)first;
-			free(rcmd);
-		}
+		ecmd = (struct s_execcmd *)node;
+		handle_exec(ecmd);
 	}
-	if (second)
+	else if (node && node->type == REDIR)
 	{
-		if (first->type == REDIR)
-		{
-			rcmd = (struct s_redircmd *)second;
-			free(rcmd);
-		}
+		rcmd = (struct s_redircmd *)node;
+		handle_redir(rcmd);
 	}
-	return (NULL);
+	else if (node && node->type == PIPE)
+	{
+		pcmd = (struct s_pipecmd *)node;
+		handle_pipe(pcmd);
+	}
+	return ;
 }

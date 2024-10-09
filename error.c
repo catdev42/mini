@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   errorclean.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:22:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 22:54:02 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:58:00 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,37 @@ int	error_exit(t_tools *tools, int error)
 	return (1);
 }
 
+void	clean_tools(t_tools *tools)
+{
+	reset_tools(tools);
+	if (tools->env)
+		ft_freetab(tools->env, INT_MAX);
+}
+
+struct s_cmd	*clean_execs(struct s_cmd *first, struct s_cmd *second)
+{
+	struct s_redircmd	*rcmd;
+
+	if (first)
+	{
+		if (first->type == REDIR)
+		{
+			rcmd = (struct s_redircmd *)first;
+			free(rcmd);
+		}
+	}
+	if (second)
+	{
+		if (first->type == REDIR)
+		{
+			rcmd = (struct s_redircmd *)second;
+			free(rcmd);
+		}
+	}
+	return (NULL);
+}
+
+/*
 char	**free_array(char **res, int nb)
 {
 	int	i;
@@ -78,3 +109,4 @@ char	**free_array(char **res, int nb)
 	free(res);
 	return (NULL);
 }
+*/
