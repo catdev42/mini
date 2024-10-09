@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:42:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/08 23:37:23 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:19:07 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ struct cmd	*parseline(char *cline, t_tools *tools)
 		left = NULL;
 		right = NULL;
 		tools->cmd_end = peek(tools->s, tools->e_cline, tools, PIPE);
-		left = parseexec(tools->s, tools->e_cline, tools);
+		left = parseexec(tools->s, tools->cmd_end, tools);
 		if (!left)
 			return (NULL);
 		// ERROR MANAGEMENT:

@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/08 23:46:06 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:13:31 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	shell_loop(t_tools *tools)
 		ft_putstr_fd("\n", 1);             // testing
 		if (!parseline(tools->cleanline, tools))
 			continue ;
-		// walking(tools->tree);
+		walking(tools->tree);
 		// execution(tools->tree, tools);
 		if (global_signal == SIGTERM) // TODO? or done
 			break ;

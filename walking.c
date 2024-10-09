@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 17:53:30 by spitul            #+#    #+#             */
-/*   Updated: 2024/10/08 23:47:02 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 13:57:50 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ void	walking(struct cmd *cmd)
 			print_pipe(pcmd);
 		}
 		else
-			exit(1); // where is this returned and what happens to it
+			return;
+			// exit(1); // where is this returned and what happens to it
+			// EXIT IS NEVER RETURNED
 	}
 }
 
