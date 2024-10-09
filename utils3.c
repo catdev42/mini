@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 20:33:23 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 23:47:52 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/10 00:23:08 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,18 @@ int	skip_quotes(char *line, int i)
 	return (i + j);
 }
 
-int	infile_or_outfile(char *start)
+
+/* Returns the index of the last character of the token,
+	just like skip quote is index of the second quote */
+int	skip_token(char *start, int i)
 {
-	if (*start == '<')
-		return (0);
-	else if (*start == '>')
-		return (1);
-	return (-1);
+	while (start[i] && !isspace(start[i]))
+	{
+		if (isquote(start[i]))
+			i = skip_quotes(start, i);
+		i++;
+	}
+	return (i - 1);
 }
 
 /* Checks if a path is a file or directory File: 1; Dir: 2; Neither: 0 */

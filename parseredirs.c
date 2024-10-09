@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 19:16:34 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 23:39:52 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/10 00:19:17 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,38 +60,6 @@ struct s_cmd	*parse_redirs(char *start, char *end_of_exec, t_tools *tools)
 	return ((struct s_cmd *)ret);
 }
 
-/* Return the Mode necessary for opening the file or directory */
-int	check_file_type(char *start, int fd_in_or_out, t_tools *tools)
-{
-	char	*filepath;
-	int		fileordir;
-
-	if (!start || fd_in_or_out < 0)
-		return (0);
-	filepath = get_redir_path(start, tools);
-	// printf("\n %s \n", filepath);
-	fileordir = file_dir_noexist(filepath, fd_in_or_out);
-	if (fileordir == 0)
-	{
-		return (-1);
-	}
-	if (start[0] == '>' && fileordir == 2)
-		print_error(filepath, "Is a directory", NULL);
-	free(filepath);
-	if (fileordir == 1 && start[0] == '>' && start[1] == '>')
-		return (O_WRONLY | O_CREAT | O_APPEND);
-	else if (fileordir == 1 && start[0] == '>')
-		return (O_WRONLY | O_CREAT | O_TRUNC);
-	else if (fileordir == 1 && start[0] == '<')
-		return (O_RDONLY);
-	else if (fileordir == 2 && start[0] == '<')
-		return (O_RDONLY | O_DIRECTORY);
-	// printf("NONE OF THE CONDITIONS WERE MET!");
-	return (0);
-	// else if (start[0] == '<' &&start[1] == '<')
-	// 		; //HEREDOC?
-}
-
 struct s_cmd	*createredir(char *filestart, int mode, int fd, t_tools *tools)
 {
 	char	*end;
@@ -111,28 +79,35 @@ struct s_cmd	*createredir(char *filestart, int mode, int fd, t_tools *tools)
 	return ((struct s_cmd *)tools->lastredir);
 }
 
-/* Checks if a path is a file or directory File: 1; Dir: 2; Neither: 0*/
-int	file_dir_noexist(const char *path, int fd_in_or_out)
+struct s_cmd	*parseargv(char *start, char *end, t_tools *tools)
 {
-	struct stat	path_stat;
+	struct s_execcmd	*ecmd;
+	int					i;
+	int					index;
 
-	if (stat(path, &path_stat) != 0)
+	ecmd = NULL;
+	ecmd = (struct s_execcmd *)makeexec();
+	i = 0;
+	index = 0;
+	if (!ecmd)
+		error_exit(tools, 1);
+	while (start[i] && (&start[i] < end))
 	{
-		if (errno == ENOENT && fd_in_or_out == 1)
-			return (1);
-		/* this should be checked only with infiles*/
-		print_error(path, strerror(errno), NULL);
-		return (0);
+		while (start[i] && isspace(start[i]))
+			i++;
+		if (start[i] && istoken(start[i]))
+			i = skip_token(start, i);
+		else
+		{
+			ecmd->argv[index] = &start[i];
+			i = skip_token(start, i);
+			ecmd->eargv[index++] = &start[i + 1];
+		}
+		i++;
 	}
-	if (S_ISREG(path_stat.st_mode))
-	{
-		return (1);
-	}
-	else if (S_ISDIR(path_stat.st_mode))
-		return (2);
-	else
-		print_error(path, "Is neither a file nor a directory", NULL);
-	return (0);
+	if (tools->lastredir)
+		tools->lastredir->cmd = (struct s_cmd *)ecmd;
+	return ((struct s_cmd *)ecmd);
 }
 
 /* parseexex() > (peek redir) > parse_redirs > parse_exec > connect things */

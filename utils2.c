@@ -6,37 +6,11 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 23:51:50 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/10 00:23:24 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
-
-/* allocates a filename/path: must be freed */
-char	*get_redir_path(char *redir, t_tools *tools)
-{
-	int		i;
-	char	*filename;
-	int		start;
-
-	i = 0;
-	while (redir[i] && isredir(redir[i]))
-	{
-		i++;
-	}
-	start = i;
-	while (redir[i] && !ft_isspace(redir[i]))
-	{
-		if (isquote(redir[i]))
-			i = skip_quotes(redir, i);
-		i++;
-	}
-	filename = ft_substr(redir, start, i - start);
-	if (!filename)
-		error_exit(tools, 1);
-	strip_quotes_final(filename);
-	return (filename);
-}
 
 /* 	Allocates, checks the memory allocation,
 		and returns the pointer to allocation.
@@ -73,20 +47,6 @@ void	strip_quotes_final(char *start)
 		}
 		i++;
 	}
-}
-
-char	*get_token_end(char *namestart)
-{
-	int	i;
-
-	i = 0;
-	while (namestart[i] && !ft_isspace(namestart[i]))
-	{
-		if (isquote(namestart[i]))
-			i = skip_quotes(namestart, i);
-		i++;
-	}
-	return (&namestart[i]);
 }
 
 /*
