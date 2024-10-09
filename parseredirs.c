@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 19:16:34 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/08 23:39:11 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:47:52 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ parse_exec
 connect things
 }
 */
+static int	infile_or_outfile(char *start);
 
 struct cmd	*parseexec(char *start, char *end_of_exec, t_tools *tools)
 {
@@ -39,16 +40,17 @@ struct cmd	*parseexec(char *start, char *end_of_exec, t_tools *tools)
 	if (!ret)
 		ret = parseargv(start, end_of_exec, tools);
 	// else
-	// 	tools->lastredir->cmd = parseargv(start, end_of_exec, tools); // this is seg
+	// 	tools->lastredir->cmd = parseargv(start, end_of_exec, tools);
+	// this is seg
 	// tools->lastredir = NULL;
 	return (ret);
 }
 
 struct cmd	*parse_redirs(char *start, char *end_of_exec, t_tools *tools)
 {
-	int				fd_in_or_out;
-	int				mode;
-	struct redircmd	*ret;
+	int			fd_in_or_out;
+	int			mode;
+	struct cmd	*ret;
 
 	ret = NULL;
 	while (*start && start < end_of_exec)
@@ -59,21 +61,81 @@ struct cmd	*parse_redirs(char *start, char *end_of_exec, t_tools *tools)
 			start += skip_quotes(start, 0);
 		if (isredir(*start))
 		{
-			// fd_in_or_out = infile_or_outfile(start); // TODO !!!
-			// mode = check_file_type(start, tools);    // TODO !!!
-			// if (!mode)
-			// 	return (NULL);
+			fd_in_or_out = infile_or_outfile(start);
+			mode = check_file_type(start, fd_in_or_out, tools); // TODO !!!
+			if (!mode)
+				return (NULL);
 			if (start[1] == start[0])
 				start++;
 			createredir(++start, mode, fd_in_or_out, tools);
 			if (!ret)
-				ret = tools->lastredir;
+				ret = (struct cmd *)tools->lastredir;
 		}
 		start++;
 	}
-	parseargv(tools->s, tools->cmd_end, tools);
+	parseargv(tools->s, end_of_exec, tools);
 	tools->lastredir = NULL;
 	return ((struct cmd *)ret);
+}
+static int	infile_or_outfile(char *start)
+{
+	if (*start == '<')
+		return (0);
+	else if (*start == '>')
+		return (1);
+	return (-1);
+}
+
+int	check_file_type(char *start, int fd_in_or_out, t_tools *tools)
+{
+	if (start)
+	if (fd_in_or_out == 1)
+	{
+		if (file_dir_noexist())
+		return (O_WRONLY | O_CREAT | O_TRUNC);
+		return (O_WRONLY | O_CREAT | O_APPEND);
+	}
+}
+
+/* 
+Function to check if a path is a file or directory 
+File: 1
+Dir: 2
+none: 0
+*/
+int	file_dir_noexist(const char *path, int redirtype, t_tools *tools)
+{
+	struct stat	path_stat;
+
+	if (stat(path, &path_stat) != 0)
+	{
+		perror("msh");
+		// if (errno == ENOENT) {
+		//     print_error(path, does not exist\n", path);
+		// } else if (errno == EACCES) {
+		//     fprintf(stderr, "Error: Permission denied for %s\n", path);
+		// } else {
+		//     fprintf(stderr, "Error: Unable to access %s\n", path);
+		// }
+		return (0); // Indicate failure
+	}
+	if (S_ISREG(path_stat.st_mode))
+	{
+		// printf("%s is a file\n", path);
+		return 1;
+	}
+	else if (S_ISDIR(path_stat.st_mode))
+	{
+		// printf("%s is a directory\n", path);
+		return (2)
+	}
+	else
+	{
+		printf("%s is neither a file nor a directory\n", path);
+		return (0);
+			// Indicate failure for non-regular files and non-directories
+	}
+	// return (-1); // Indicate nonesense
 }
 
 struct cmd	*createredir(char *filestart, int mode, int fd, t_tools *tools)
@@ -92,8 +154,8 @@ struct cmd	*createredir(char *filestart, int mode, int fd, t_tools *tools)
 				fd);
 	if (!tools->lastredir)
 		error_exit(tools, 1); // EXITS PROGRAM ON OOM ERROR
-	if (!tools->tree)
-		tools->tree = (struct cmd *)tools->lastredir;
+	// if (!tools->tree)
+	// 	tools->tree = (struct cmd *)tools->lastredir;
 	return ((struct cmd *)tools->lastredir);
 }
 
