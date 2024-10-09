@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 19:16:34 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/08 14:19:44 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/08 23:42:46 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ struct cmd	*parseargv(char *start, char *end, t_tools *tools)
 		}
 		i++;
 	}
+	if (tools->lastredir)
+		tools->lastredir->cmd = (struct cmd *)ecmd;
 	return ((struct cmd *)ecmd);
 }
 

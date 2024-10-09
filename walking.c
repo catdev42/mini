@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 17:53:30 by spitul            #+#    #+#             */
-/*   Updated: 2024/10/08 18:41:18 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/08 23:47:02 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	print_cmd(t_execcmd *cmd)
 	printf("node %d. \n", cmd->type);
 	printf("we are in an exec struct\n");
 	printf("ecmd: %p\n\n", cmd->argv);
+	// free(cmd);
 	// (*i)++;
 }
 void	print_redir(t_redircmd *cmd)
@@ -68,6 +69,8 @@ void	print_redir(t_redircmd *cmd)
 	printf("redir cmd: %d\n", cmd->fd);
 	// (*i)++;
 	walking(cmd->cmd);
+	// free(cmd);
+
 }
 
 void	print_pipe(t_pipecmd *cmd)
@@ -77,6 +80,7 @@ void	print_pipe(t_pipecmd *cmd)
 	// (*i)++;
 	walking(cmd->left);
 	walking(cmd->right);
+	// free(cmd);
 }
 
 

@@ -6,21 +6,23 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/08 18:41:05 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/08 22:02:48 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# include <stdio.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+//
 # include "../libft/libft.h"
 # include "builtins.h"
 # include "structs.h"
 # include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
@@ -31,7 +33,7 @@
 
 // volatile sig_atomic_t	global_signal = 0;
 
-void	walking(struct cmd *cmd); 
+void		walking(struct cmd *cmd);
 /************************/
 /******** main.c ********/
 /************************/

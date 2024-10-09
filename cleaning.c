@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:22:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/07 19:23:07 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/08 23:23:53 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	reset_tools(t_tools *tools)
 	if (tools->cleanline)
 		free(tools->cleanline);
 	tools->cleanline = NULL;
+	
 	// TODO
 	// TODO
 	// TODO

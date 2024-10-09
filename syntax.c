@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 21:45:41 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/06 16:59:02 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/08 22:10:35 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ static int	check_redir_syntax(char *line, int i);
 int	valid_redirects(char *line)
 {
 	int		i;
-	bool	hasalpha;
-	int		first_token_index;
+	// bool	hasalpha;
+	// int		first_token_index;
 
-	first_token_index = 0;
-	hasalpha = 0;
+	// first_token_index = 0;
+	// hasalpha = 0;
 	i = 0;
 	while (line[i])
 	{
@@ -32,10 +32,11 @@ int	valid_redirects(char *line)
 			return (print_error(UNEXP, "|"));
 		if (line[i] == '\"' || line[i] == '\'')
 		{
-			hasalpha = 1;
+			// hasalpha = 1;
 			i = skip_quotes(line, i) + 1;
 		}
-		hasalpha = 0;
+		// hasalpha = 0;
+		
 		if (line[i] && line[i] == '|')
 		{
 			if (!check_pipe_sytax(line, i))

@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:42:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/08 18:53:01 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/08 23:37:23 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,38 +86,21 @@ struct cmd	*createpipe(struct cmd *left, struct cmd *right, t_tools *tools)
 	return ((struct cmd *)tools->lastpipe);
 }
 
-struct cmd	*parseexec(char *start, char *end_of_exec, t_tools *tools)
-{
-	struct cmd	*ret;
-
-	ret = NULL;
-	if (peek(start, end_of_exec, tools, REDIR))
-	{
-		ret = parse_redirs(start, end_of_exec, tools);
-		if (!ret)
-			return (NULL);
-	}
-	if (!ret)
-		ret = parseargv(start, end_of_exec, tools);
-	else
-		tools->lastredir->cmd = parseargv(start, end_of_exec, tools);
-	return (ret);
-}
 
 char	*peek(char *line, char *end, t_tools *tools, int token)
 {
 	char	*tokenaddress;
 	int		i;
-	char	tokenchar;
+	// char	tokenchar;
 
 	tokenaddress = 0;
 	i = 0;
-	tokenchar = 0;
-	if (token == PIPE && tools->line)
+	// tokenchar = 0;
+	if (token == PIPE && tools->line) // tools->line just to use tools... useless
 	{
-		tokenchar = '|';
+		// tokenchar = '|';
 		i = 0;
-		while (line[i]) //&& line[i] != '|')
+		while (line[i] && &line[i] < end) //&& line[i] != '|')
 		{
 			if (isquote(line[i]))
 				i = skip_quotes(line, i);

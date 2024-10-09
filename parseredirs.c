@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 19:16:34 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/08 18:52:39 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/08 23:39:11 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,25 @@ parse_exec
 connect things
 }
 */
+
+struct cmd	*parseexec(char *start, char *end_of_exec, t_tools *tools)
+{
+	struct cmd	*ret;
+
+	ret = NULL;
+	if (peek(start, end_of_exec, tools, REDIR))
+	{
+		ret = parse_redirs(start, end_of_exec, tools); // check inside
+		if (!ret)
+			return (NULL);
+	}
+	if (!ret)
+		ret = parseargv(start, end_of_exec, tools);
+	// else
+	// 	tools->lastredir->cmd = parseargv(start, end_of_exec, tools); // this is seg
+	// tools->lastredir = NULL;
+	return (ret);
+}
 
 struct cmd	*parse_redirs(char *start, char *end_of_exec, t_tools *tools)
 {
@@ -52,7 +71,7 @@ struct cmd	*parse_redirs(char *start, char *end_of_exec, t_tools *tools)
 		}
 		start++;
 	}
-	parseargv(tools->s, end_of_exec, tools);
+	parseargv(tools->s, tools->cmd_end, tools);
 	tools->lastredir = NULL;
 	return ((struct cmd *)ret);
 }

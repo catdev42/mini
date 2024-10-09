@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 20:33:23 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/07 23:34:24 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/08 22:04:42 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	strip_quotes_final(char *start)
 	int		i;
 	char	quotechar;
 	char	*firstquote;
-	bool	removequotes;
+	// bool	removequotes;
 
-	removequotes = 1;
+	// removequotes = 1;
 	firstquote = 0;
 	i = 0;
 	quotechar = 0;

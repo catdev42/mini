@@ -2,6 +2,7 @@
     "files.associations": {
         "libft.h": "c",
         "minishell.h": "c",
-        "ios": "c"
+        "ios": "c",
+        "signal.h": "c"
     }
 }

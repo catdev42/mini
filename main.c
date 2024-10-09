@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/08 18:34:56 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/08 23:46:06 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,14 @@ int	shell_loop(t_tools *tools)
 			continue ;
 		tools->cleanline = clean_line(tools->line, ft_strlen(tools->line),
 				tools);
+		tools->e_cline = tools->cleanline + ft_strlen(tools->cleanline);
 		if (!tools->cleanline)
-			continue ;
-		if (!parseline(tools->cleanline, tools))
 			continue ;
 		ft_putstr_fd(tools->cleanline, 1); // testing
 		ft_putstr_fd("\n", 1);             // testing
-		walking(tools->tree, 0);
+		if (!parseline(tools->cleanline, tools))
+			continue ;
+		// walking(tools->tree);
 		// execution(tools->tree, tools);
 		if (global_signal == SIGTERM) // TODO? or done
 			break ;
