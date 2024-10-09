@@ -3,6 +3,8 @@
         "libft.h": "c",
         "minishell.h": "c",
         "ios": "c",
-        "signal.h": "c"
+        "signal.h": "c",
+        "stdio.h": "c",
+        "readline.h": "c"
     }
 }

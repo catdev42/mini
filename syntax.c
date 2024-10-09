@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 21:45:41 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/08 22:10:35 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 20:16:22 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,23 @@ static int	check_redir_syntax(char *line, int i);
 
 int	valid_redirects(char *line)
 {
-	int		i;
+	int	i;
+
 	// bool	hasalpha;
 	// int		first_token_index;
-
 	// first_token_index = 0;
 	// hasalpha = 0;
 	i = 0;
 	while (line[i])
 	{
 		if (!check_first_pipe(line))
-			return (print_error(UNEXP, "|"));
+			return (print_error(NULL, UNEXP, "|"));
 		if (line[i] == '\"' || line[i] == '\'')
 		{
 			// hasalpha = 1;
 			i = skip_quotes(line, i) + 1;
 		}
 		// hasalpha = 0;
-		
 		if (line[i] && line[i] == '|')
 		{
 			if (!check_pipe_sytax(line, i))
@@ -70,9 +69,9 @@ static int	check_pipe_sytax(char *line, int i)
 		i++;
 	}
 	if (!hasalpha && line[i] == '|')
-		return (print_error(UNEXP, "|"));
+		return (print_error(NULL, UNEXP, "|"));
 	else if (!hasalpha && !line[i])
-		return (print_error(UNEXP, "newline"));
+		return (print_error(NULL, UNEXP, "newline"));
 	return (1);
 }
 
@@ -89,9 +88,9 @@ static int	check_redir_syntax(char *line, int i)
 		i++;
 	}
 	if (!hasalpha && istoken(line[i]))
-		return (print_error(UNEXP, (get_redir_error(line, i))));
+		return (print_error(NULL, UNEXP, (get_redir_error(line, i))));
 	else if (!line[i] && !hasalpha)
-		return (print_error(UNEXP, "newline"));
+		return (print_error(NULL, UNEXP, "newline"));
 	return (1);
 }
 
@@ -120,7 +119,6 @@ static int	check_first_pipe(char *line)
 		i++;
 	if (line[i] == '|')
 		return (0);
-	
 	return (1);
 }
 

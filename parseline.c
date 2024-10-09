@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:42:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 14:19:07 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:06:11 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ struct cmd	*parseline(char *cline, t_tools *tools)
 	nullify(tools->cleanline); // TODO FIX THIS
 	return (tools->tree);
 }
+
 void	nullify(char *cline)
 {
 	int	i;
@@ -85,7 +86,6 @@ struct cmd	*createpipe(struct cmd *left, struct cmd *right, t_tools *tools)
 		tools->tree = (struct cmd *)tools->lastpipe;
 	return ((struct cmd *)tools->lastpipe);
 }
-
 
 char	*peek(char *line, char *end, t_tools *tools, int token)
 {

@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:12:04 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/08 22:02:48 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:50:09 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+/* Keep on top */
 # include <readline/history.h>
 # include <readline/readline.h>
-//
+/* Keep on top */
 # include "../libft/libft.h"
 # include "builtins.h"
 # include "structs.h"
+# include <errno.h>
 # include <fcntl.h>
 # include <signal.h>
 # include <stdbool.h>
@@ -87,6 +89,7 @@ struct cmd	*createpipe(struct cmd *left, struct cmd *right, t_tools *tools);
 struct cmd	*parse_redirs(char *start, char *end_of_exec, t_tools *tools);
 struct cmd	*createredir(char *filestart, int mode, int fd, t_tools *tools);
 char		*get_token_end(char *namestart);
+char		*get_redir_path(char *redir, t_tools *tools);
 
 struct cmd	*parseargv(char *start, char *end, t_tools *tools);
 int			skip_token(char *start, int i);
@@ -104,31 +107,36 @@ struct cmd	*makepipe(struct cmd *left, struct cmd *right);
 /************************/
 /******* utils.c ********/
 /************************/
-char		*safe_calloc(size_t nmemb, size_t size, t_tools *tools);
 int			print_tab(char **envp);
+int			valid_line(char *line);
 int			istoken(char c);
 int			isquote(char c);
-int			get_matrix_len(char **matrix);
 int			isredir(char c);
 // int		skip_spaces(char *s);
+// void		ft_bspace(void *s, size_t n);
 
 /******* utils2.c ********/
-int			valid_line(char *line);
-void		ft_bspace(void *s, size_t n);
+int			get_matrix_len(char **matrix);
+char		*safe_calloc(size_t nmemb, size_t size, t_tools *tools);
 void		init_zero(size_t *i, size_t *j, char *c, char **c_line);
-int			check_quotes(char *line, int i);
-int			skip_quotes(char *line, int i);
+void		strip_quotes_final(char *start);
+char		*get_token_end(char *namestart);
 
 /******* utils3.c ********/
-void		strip_quotes_final(char *start);
-
+int			check_quotes(char *line, int i);
+int			skip_quotes(char *line, int i);
+int			infile_or_outfile(char *start);
+int			check_file_type(char *start, int fd_in_or_out, t_tools *tools);
+int			file_dir_noexist(const char *path);
 /************************/
 /******* error.c ********/
 /************************/
 int			error_exit(t_tools *tools, int error);
 void		clean_tools(t_tools *tools);
 char		**free_array(char **res, int nb);
-int			print_error(char *errline, char *errarg);
+int			print_error(const char *arg, const char *errline,
+				const char *errarg);
+
 /************************/
 /******* cleaning.c ********/
 /************************/

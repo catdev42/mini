@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:22:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/07 16:05:07 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:01:31 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ This description is wrong.
 Input NULL or errline and/or errarg.
 If errline is provided, an error is printed to the screen,
 is errarg is provided, it is appended to the error string*/
-int	print_error(char *errline, char *errarg)
+int	print_error(const char *arg, const char *errline, const char *errarg)
 {
 	ft_putstr_fd("msh: ", 2);
-	// if (name)
-	// {
-	// 	ft_putstr_fd(errline, 2);
-	// 	ft_putstr_fd(" ", 2);
-	// }
+	if (arg)
+	{
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd(": ", 2);
+	}
 	if (errline)
 	{
 		ft_putstr_fd(errline, 2);
@@ -51,9 +51,8 @@ int	error_exit(t_tools *tools, int error)
 {
 	clean_tools(tools);
 	clear_history();
-	if (error == 0) //CTRL D or EXIT SUCCESS
+	if (error == 0) // CTRL D or EXIT SUCCESS
 	{
-		
 		// ft_putstr_fd("Control D was pressed", 2);
 		exit(0); // do we need our own builtuin?
 	}
@@ -65,7 +64,7 @@ int	error_exit(t_tools *tools, int error)
 	}
 	else if (error == 2)
 	{
-		exit(1); 
+		exit(1);
 	}
 	return (1);
 }
