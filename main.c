@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 14:13:31 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:00:21 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int	shell_loop(t_tools *tools)
 		tools->e_cline = tools->cleanline + ft_strlen(tools->cleanline);
 		if (!tools->cleanline)
 			continue ;
-		ft_putstr_fd(tools->cleanline, 1); // testing
-		ft_putstr_fd("\n", 1);             // testing
+		// ft_putstr_fd(tools->cleanline, 1); // testing
+		// ft_putstr_fd("\n", 1);             // testing
 		if (!parseline(tools->cleanline, tools))
 			continue ;
 		walking(tools->tree);

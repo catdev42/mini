@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:22:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 21:01:31 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 22:54:02 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	print_error(const char *arg, const char *errline, const char *errarg)
 
 /*
 FOR EXITING!
-0: CTRL D
+0: CTRL D or EXIT SUCCESS
 1: malloc
 3: just exit(1) nothing printed
 */
@@ -51,34 +51,16 @@ int	error_exit(t_tools *tools, int error)
 {
 	clean_tools(tools);
 	clear_history();
-	if (error == 0) // CTRL D or EXIT SUCCESS
-	{
-		// ft_putstr_fd("Control D was pressed", 2);
-		exit(0); // do we need our own builtuin?
-	}
+	if (error == 0)
+		exit(0);
 	else if (error == 1)
 	{
-		// ft_putstr_fd("minishell: Problem with malloc", 2);
 		perror("msh:");
 		exit(1);
 	}
 	else if (error == 2)
-	{
 		exit(1);
-	}
 	return (1);
-}
-void	clean_tools(t_tools *tools)
-{
-	if (tools->env)
-		ft_freetab(tools->env, INT_MAX);
-	if (tools->line)
-		free(tools->line);
-	if (tools->cleanline)
-	{
-		ft_bzero(tools->cleanline, tools->cl_capacity);
-		free(tools->cleanline);
-	}
 }
 
 char	**free_array(char **res, int nb)

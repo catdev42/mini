@@ -6,25 +6,25 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:42:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 21:06:11 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 22:32:52 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
 
-void	nullify(char *cline); // FIX THIS TO BE MORE PRECISE MAYBE?
+static void	nullify(char *cline); // FIX THIS TO BE MORE PRECISE MAYBE?
 
-struct cmd	*parseline(char *cline, t_tools *tools)
+struct s_cmd	*parseline(char *cline, t_tools *tools)
 {
-	struct cmd	*left;
-	struct cmd	*right;
+	struct s_cmd	*left;
+	struct s_cmd	*right;
 
 	tools->s = cline;
-	while (peek(tools->s, tools->e_cline, tools, PIPE))
+	while (peek(tools->s, tools->e_cline, PIPE))
 	{
 		left = NULL;
 		right = NULL;
-		tools->cmd_end = peek(tools->s, tools->e_cline, tools, PIPE);
+		tools->cmd_end = peek(tools->s, tools->e_cline, PIPE);
 		left = parseexec(tools->s, tools->cmd_end, tools);
 		if (!left)
 			return (NULL);
@@ -32,7 +32,7 @@ struct cmd	*parseline(char *cline, t_tools *tools)
 		// (print error message in parseexec(),
 		// give cursor to user in loop)
 		tools->s = tools->cmd_end + 1;
-		if (peek(tools->s, tools->e_cline, tools, PIPE))
+		if (peek(tools->s, tools->e_cline, PIPE))
 			right = NULL;
 		else
 		{
@@ -48,11 +48,61 @@ struct cmd	*parseline(char *cline, t_tools *tools)
 	}
 	if (!tools->tree)
 		tools->tree = parseexec(tools->s, tools->e_cline, tools);
-	nullify(tools->cleanline); // TODO FIX THIS
+	nullify(tools->cleanline);
 	return (tools->tree);
 }
 
-void	nullify(char *cline)
+/* Helper for parseline and pipe creation: determines where to attach the pipe */
+struct s_cmd	*createpipe(struct s_cmd *left, struct s_cmd *right,
+		t_tools *tools)
+{
+	if (tools->lastpipe)
+	{
+		tools->lastpipe->right = makepipe(left, right);
+		tools->lastpipe = (struct s_pipecmd *)tools->lastpipe->right;
+	}
+	else
+		tools->lastpipe = (struct s_pipecmd *)makepipe(left, right);
+	if (!tools->lastpipe)
+	{
+		clean_execs(left, right);
+		error_exit(tools, 1); // EXITS ENTIRE PROGRAM ON ALLOCATION ERROR!
+	}
+	if (!tools->tree)
+		tools->tree = (struct s_cmd *)tools->lastpipe;
+	return ((struct s_cmd *)tools->lastpipe);
+}
+
+char	*peek(char *line, char *end, int token)
+{
+	char	*tokenaddress;
+	int		i;
+
+	tokenaddress = 0;
+	i = 0;
+	while (line[i] && &line[i] < end)
+	{
+		if (isquote(line[i]))
+			i = skip_quotes(line, i);
+		if (istoken(line[i]))
+		{
+			if (isredir(line[i]) && token == REDIR)
+			{
+				tokenaddress = &line[i];
+				break ;
+			}
+			if (line[i] == '|' && token == PIPE)
+			{
+				tokenaddress = &line[i];
+				break ;
+			}
+		}
+		i++;
+	}
+	return (tokenaddress);
+}
+
+static void	nullify(char *cline)
 {
 	int	i;
 
@@ -65,67 +115,4 @@ void	nullify(char *cline)
 			i = skip_token(cline, i);
 		i++;
 	}
-}
-
-/* Helper for parseline and pipe creation: determines where to attach the pipe */
-struct cmd	*createpipe(struct cmd *left, struct cmd *right, t_tools *tools)
-{
-	if (tools->lastpipe)
-	{
-		tools->lastpipe->right = makepipe(left, right);
-		tools->lastpipe = (struct pipecmd *)tools->lastpipe->right;
-	}
-	else
-		tools->lastpipe = (struct pipecmd *)makepipe(left, right);
-	if (!tools->lastpipe)
-	{
-		clean_execs(left, right);
-		error_exit(tools, 1); // EXITS ENTIRE PROGRAM ON ALLOCATION ERROR!
-	}
-	if (!tools->tree)
-		tools->tree = (struct cmd *)tools->lastpipe;
-	return ((struct cmd *)tools->lastpipe);
-}
-
-char	*peek(char *line, char *end, t_tools *tools, int token)
-{
-	char	*tokenaddress;
-	int		i;
-	// char	tokenchar;
-
-	tokenaddress = 0;
-	i = 0;
-	// tokenchar = 0;
-	if (token == PIPE && tools->line) // tools->line just to use tools... useless
-	{
-		// tokenchar = '|';
-		i = 0;
-		while (line[i] && &line[i] < end) //&& line[i] != '|')
-		{
-			if (isquote(line[i]))
-				i = skip_quotes(line, i);
-			if (line[i] == '|')
-			{
-				tokenaddress = &line[i];
-				break ;
-			}
-			i++;
-		}
-	}
-	else if (token == REDIR && tools->line)
-	{
-		i = 0;
-		while (line[i] && &line[i] < end) // isredir(line[i]) &&
-		{
-			if (isquote(line[i]))
-				i = skip_quotes(line, i);
-			if (isredir(line[i]))
-			{
-				tokenaddress = &line[i];
-				break ;
-			}
-			i++;
-		}
-	}
-	return (tokenaddress);
 }

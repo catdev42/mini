@@ -6,20 +6,20 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 19:16:34 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/08 23:42:46 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:59:38 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
 
-struct cmd	*parseargv(char *start, char *end, t_tools *tools)
+struct s_cmd	*parseargv(char *start, char *end, t_tools *tools)
 {
-	struct execcmd	*ecmd;
-	int				i;
-	int				index;
+	struct s_execcmd	*ecmd;
+	int					i;
+	int					index;
 
 	ecmd = NULL;
-	ecmd = (struct execcmd *)makeexec();
+	ecmd = (struct s_execcmd *)makeexec();
 	i = 0;
 	index = 0;
 	if (!ecmd)
@@ -39,8 +39,8 @@ struct cmd	*parseargv(char *start, char *end, t_tools *tools)
 		i++;
 	}
 	if (tools->lastredir)
-		tools->lastredir->cmd = (struct cmd *)ecmd;
-	return ((struct cmd *)ecmd);
+		tools->lastredir->cmd = (struct s_cmd *)ecmd;
+	return ((struct s_cmd *)ecmd);
 }
 
 /* Returns the index of the last character of the token,

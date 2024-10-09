@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parseline.c                                        :+:      :+:    :+:   */
+/*   parseline_old.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:42:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/06 21:51:37 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 22:00:19 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
 
-struct cmd	*parseline(char *cline, t_tools *tools)
+struct s_cmd	*parseline(char *cline, t_tools *tools)
 {
-	struct execcmd	*ecmd;
-	struct cmd		*ret;
+	struct s_execcmd	*ecmd;
+	struct s_cmd		*ret;
 
 	tools->p = NULL;
 	tools->lastpipe = NULL;
@@ -48,12 +48,12 @@ Uses tools->s, tools->p and tools->p_next
 Returns a pointer to the pipe struct with the left side command parsed
 and pointing to the next command parsed or and empty pipe	struct;
 */
-struct cmd	*decide_pipe_right(t_tools *tools)
+struct s_cmd	*decide_pipe_right(t_tools *tools)
 {
-	struct execcmd	*ecmdLeft;
-	struct execcmd	*ecmdRight;
+	struct s_execcmd	*ecmdLeft;
+	struct s_execcmd	*ecmdRight;
 
-	// while ((struct pipecmd *)tools->tree)
+	// while ((struct s_pipecmd *)tools->tree)
 	// 	tools->p_next = !peek(tools->p + 1, tools, PIPE);
 	if (!peek(tools->p + 1, tools->e_cline, tools, PIPE))
 	{
@@ -63,7 +63,7 @@ struct cmd	*decide_pipe_right(t_tools *tools)
 		ecmdLeft = parseexec(tools->p + 1, tools->e_cline, tools);
 		if (!ecmdRight)
 		{
-			cleanexec(ecmdLeft); //TODO
+			cleanexec(ecmdLeft); // TODO
 			return (0);
 		}
 		return (makepipe(ecmdLeft, ecmdRight));
@@ -74,7 +74,6 @@ struct cmd	*decide_pipe_right(t_tools *tools)
 		return (makepipe(parseexec(tools->s, tools->p, tools), NULL));
 	}
 }
-
 
 char	*peek(char *line, char *end, t_tools *tools, int token)
 {

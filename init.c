@@ -6,26 +6,26 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 21:35:52 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 21:55:37 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 22:00:19 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
 
-struct cmd	*makeexec(void)
+struct s_cmd	*makeexec(void)
 {
-	struct execcmd	*cmd;
+	struct s_execcmd	*cmd;
 
 	cmd = malloc(sizeof(*cmd));
 	memset(cmd, 0, sizeof(*cmd));
 	cmd->type = EXEC;
-	return ((struct cmd *)cmd);
+	return ((struct s_cmd *)cmd);
 }
 // redircmd(struct cmd *subcmd, char *file, char *efile, int mode, int fd)
 
-struct cmd	*makeredir(char *file, char *efile, int mode, int fd)
+struct s_cmd	*makeredir(char *file, char *efile, int mode, int fd)
 {
-	struct redircmd	*cmd;
+	struct s_redircmd	*cmd;
 
 	cmd = malloc(sizeof(*cmd));
 	if (!cmd)
@@ -38,19 +38,17 @@ struct cmd	*makeredir(char *file, char *efile, int mode, int fd)
 	// cmd->file = file;
 	cmd->mode = mode;
 	cmd->fd = fd;
-	return ((struct cmd *)cmd);
+	return ((struct s_cmd *)cmd);
 }
 
-struct cmd	*makepipe(struct cmd *left, struct cmd *right)
+struct s_cmd	*makepipe(struct s_cmd *left, struct s_cmd *right)
 {
-	struct pipecmd	*cmd;
+	struct s_pipecmd	*cmd;
 
 	cmd = malloc(sizeof(*cmd));
 	memset(cmd, 0, sizeof(*cmd));
 	cmd->type = PIPE;
 	cmd->left = left;
 	cmd->right = right;
-	return ((struct cmd *)cmd);
+	return ((struct s_cmd *)cmd);
 }
-
-

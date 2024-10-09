@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 19:16:34 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/07 16:45:50 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:59:56 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 // (print error message in parseexec(),
 // give cursor to user in loop)
 
-struct cmd	*parseexec(char *start, char *end_of_exec, t_tools *tools)
+struct s_cmd	*parseexec(char *start, char *end_of_exec, t_tools *tools)
 {
-	struct execcmd	*ecmd;
-	struct redircmd	*rcmd;
-	struct cmd		*ret;
+	struct s_execcmd	*ecmd;
+	struct s_redircmd	*rcmd;
+	struct s_cmd		*ret;
 	int				i;
 
 	i = 0;
@@ -28,7 +28,7 @@ struct cmd	*parseexec(char *start, char *end_of_exec, t_tools *tools)
 	rcmd = NULL;
 	ret = NULL;
 	ecmd = makeexec();
-	ret = (struct cmd *)ecmd;
+	ret = (struct s_cmd *)ecmd;
 	tools->tracktree = ecmd;
 	// while (peek(&start[i], end_of_exec, tools, REDIR))
 	// {
@@ -62,7 +62,7 @@ struct cmd	*parseexec(char *start, char *end_of_exec, t_tools *tools)
 }
 
 
-struct cmd	*getredir(int token, char *namestart, t_tools *tools)
+struct s_cmd	*getredir(int token, char *namestart, t_tools *tools)
 {
 	int		i;
 	char	*filename;
@@ -118,9 +118,9 @@ int	check_file_type(const char *path, int redirtype, t_tools *tools)
 	return (1); // Indicate success
 }
 
-struct cmd	*parseredir(char *start, char *end_of_exec, t_tools *tools)
+struct s_cmd	*parseredir(char *start, char *end_of_exec, t_tools *tools)
 {
-	struct redircmd	*rcmd;
+	struct s_redircmd	*rcmd;
 	int				i;
 	int				term;
 	int				j;
@@ -149,7 +149,7 @@ struct cmd	*parseredir(char *start, char *end_of_exec, t_tools *tools)
 		// else
 		// struct cmd * makeredir(struct cmd *subcmd, char *file,
 		// char *efile, int mode, int fd)
-		rcmd = (struct redircmd *)(makeredir(NULL, &start[++i], &start[term],
+		rcmd = (struct s_redircmd *)(makeredir(NULL, &start[++i], &start[term],
 					O_WRONLY | O_TRUNC | O_CREAT, 0));
 	}
 }

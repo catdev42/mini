@@ -6,22 +6,21 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 17:53:30 by spitul            #+#    #+#             */
-/*   Updated: 2024/10/09 21:54:56 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:01:37 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
 
+void	print_cmd(t_execcmd *ecmd);
+void	print_redir(t_redircmd *rcmd);
+void	print_pipe(t_pipecmd *pcmd);
 
-void					print_cmd(t_execcmd *ecmd);
-void					print_redir(t_redircmd *rcmd);
-void					print_pipe(t_pipecmd *pcmd);
-
-void	walking(struct cmd *cmd)
+void	walking(struct s_cmd *cmd)
 {
-	struct execcmd	*ecmd;
-	struct redircmd	*rcmd;
-	struct pipecmd	*pcmd;
+	struct s_execcmd	*ecmd;
+	struct s_redircmd	*rcmd;
+	struct s_pipecmd	*pcmd;
 
 	ecmd = NULL;
 	pcmd = NULL;
@@ -44,43 +43,35 @@ void	walking(struct cmd *cmd)
 			print_pipe(pcmd);
 		}
 		else
-			return;
+			return ;
 	}
 }
 
 void	print_cmd(t_execcmd *cmd)
 {
-	printf("node %d. \n", cmd->type);
-	printf("we are in an exec struct\n");
+	printf("EXEC node %d. \n", cmd->type);
 	print_tab(cmd->argv);
 	printf("ecmd: %p\n\n", cmd->argv);
 }
 void	print_redir(t_redircmd *cmd)
 {
-	printf("node %d. \n", cmd->type);
-	printf("redir cmd: %d\n", cmd->fd);
+	printf("REDIR cmd: %d\n", cmd->fd);
+	printf("node %s. \n", cmd->file);
 	walking(cmd->cmd);
 }
 
 void	print_pipe(t_pipecmd *cmd)
 {
-	printf("node %d. \n", cmd->type);
-	printf("pipe cmd\n");
-
+	printf("PIPE node %d. \n\n", cmd->type);
 	walking(cmd->left);
 	walking(cmd->right);
-	
 }
-
-
-
-
 
 // void	walking(t_cmd *cmd)
 // {
-// 	struct execcmd	*ecmd;
-// 	struct redircmd	*rcmd;
-// 	struct pipecmd	*pcmd;
+// 	struct s_execcmd	*ecmd;
+// 	struct s_redircmd	*rcmd;
+// 	struct s_pipecmd	*pcmd;
 
 // 	// ft_memset((void *)ecmd, 0, sizeof(*ecmd));
 // 	// ft_memset((void *)rcmd, 0, sizeof(*rcmd));
