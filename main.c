@@ -6,13 +6,15 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:51:01 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 23:45:39 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:06:23 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
 
 volatile sig_atomic_t	global_signal = 0;
+/* volatile accessible only in  - likes change, updates rapidly
+vs extern*/
 
 int	main(int argc, char **argv, char **env)
 {
@@ -27,7 +29,7 @@ int	main(int argc, char **argv, char **env)
 		return (error_exit(&tools, 1));
 	init_sa(&sa);
 	shell_loop(&tools);
-	print_tab(tools.env);
+	// print_tab(tools.env);
 	clear_history();
 	return (0);
 }
@@ -52,8 +54,8 @@ int	shell_loop(t_tools *tools)
 		tools->e_cline = tools->cleanline + ft_strlen(tools->cleanline);
 		if (!tools->cleanline)
 			continue ;
-		// ft_putstr_fd(tools->cleanline, 1); // testing
-		// ft_putstr_fd("\n", 1);             // testing
+		ft_putstr_fd(tools->cleanline, 1); // testing
+		ft_putstr_fd("\n", 1);             // testing
 		if (!parseline(tools->cleanline, tools))
 			continue ;
 		walking(tools->tree);
@@ -64,8 +66,6 @@ int	shell_loop(t_tools *tools)
 	clean_tools(tools);
 	return (0);
 }
-
-
 
 // CHECK IF THIS SHOULD BE A BUILTIN??? TODO TO DO
 /* Liretally checks if exit was typed into the line as the first command */
@@ -106,4 +106,10 @@ void	init_sa(struct sigaction *sa)
 		perror("sigaction");
 		exit(1);
 	}
+	// else if (sigaction(SIGTERM, sa, NULL) == -1)
+	// {
+	// 	global_signal = 0;
+	// 	// perror("sigaction");
+	// 	// exit(1);
+	// }
 }

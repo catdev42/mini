@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   syntax.c                                           :+:      :+:    :+:   */
+/*   linesyntax.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 21:45:41 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/10 00:25:04 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:18:15 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ static int	check_redir_syntax(char *line, int i)
 	return (1);
 }
 
+/* What do I send in? and what do i get out*/
 static char	*get_redir_error(char *line, int i)
 {
 	int	j;
@@ -98,6 +99,8 @@ static char	*get_redir_error(char *line, int i)
 	line[i + j] = 0;
 	return (&line[i]);
 }
+
+
 
 // returns zero if syntax error with pipes in beginning or end
 static int	check_first_pipe(char *line)

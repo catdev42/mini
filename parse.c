@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parseline.c                                        :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:42:37 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 22:32:52 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/12 21:45:54 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ struct s_cmd	*parseline(char *cline, t_tools *tools)
 		left = parseexec(tools->s, tools->cmd_end, tools);
 		if (!left)
 			return (NULL);
-		// ERROR MANAGEMENT:
-		// (print error message in parseexec(),
-		// give cursor to user in loop)
+		
 		tools->s = tools->cmd_end + 1;
 		if (peek(tools->s, tools->e_cline, PIPE))
 			right = NULL;
@@ -39,12 +37,8 @@ struct s_cmd	*parseline(char *cline, t_tools *tools)
 			right = parseexec(tools->s, tools->e_cline, tools);
 			if (!right)
 				return (clean_execs(left, NULL));
-			// ERROR MANAGEMENT:
-			// (print error message in parseexec(),
-			// give cursor to user in loop)
 		}
 		createpipe(left, right, tools);
-		// pipe creation (exits from there if malloc error)
 	}
 	if (!tools->tree)
 		tools->tree = parseexec(tools->s, tools->e_cline, tools);

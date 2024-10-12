@@ -12,3 +12,8 @@ SYNTAX
 
 CLEANING
 * Redir nodes have the file name allocated as a string - must free when cleaning
+
+// MISTAKES
+var getting stuck is variable doesnt exitst
+quote not getting removed sometimeses but sometimes yes
+

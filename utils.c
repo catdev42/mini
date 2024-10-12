@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:15:14 by myakoven          #+#    #+#             */
-/*   Updated: 2024/10/09 23:47:36 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:13:07 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	istoken(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
 }
+
 int	isredir(char c)
 {
 	return (c == '<' || c == '>');
